@@ -36,5 +36,9 @@ class User:
 
     @property
     def role(self) -> Role:
+        """
+        Determine and determine the role of the user based on their usernumber
+        :return:
+        """
         # TODO: Actually assign a role
         return Role.USER
