@@ -1,3 +1,8 @@
+"""
+FIA Auth custom exceptions
+"""
+
+
 class UOWSError(Exception):
     """Problem authenticating with the user office web service"""
 
