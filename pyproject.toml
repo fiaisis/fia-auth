@@ -17,8 +17,9 @@ dependencies = [
 "Repository" = "https://github.com/fiaisis/fia-auth"
 
 [project.optional-dependencies]
-code-analysis = [
+code-inspection = [
     "pylint==3.1.0",
+    "mypy==1.9.0"
 ]
 
 formatting = [
