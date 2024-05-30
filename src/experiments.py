@@ -43,4 +43,4 @@ async def get_experiments_for_user_number(user_number: int) -> List[int]:
         return [int(proposal["referenceNumber"]) for proposal in response["proposals"]]
     except TransportError as e:
         logger.exception("Failed to query allocations API", exc_info=e)
-        raise ProposalAllocationsError()
+        raise ProposalAllocationsError() from e
