@@ -1,5 +1,5 @@
 # fia-auth
-
+[![codecov](https://codecov.io/gh/fiaisis/fia-auth/graph/badge.svg?token=lzm0DS1jhG)](https://codecov.io/gh/fiaisis/fia-auth)
 
 ## Testing Locally
 You must be connected to the vpn to make use of the uows and allocations api.
