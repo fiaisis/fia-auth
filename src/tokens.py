@@ -16,8 +16,9 @@ logger = logging.getLogger(__name__)
 
 
 class Token(ABC):
+    jwt: str
 
-    def verify(self):
+    def verify(self) -> None:
         try:
             self._payload = jwt.decode(
                 self.jwt,
@@ -62,7 +63,7 @@ class AccessToken(Token):
         else:
             raise BadJWTError("Access token creation requires jwt_token string XOR a payload")
 
-    def refresh(self):
+    def refresh(self) -> None:
         self.verify()
         self._payload["exp"] = datetime.now(timezone.utc) + timedelta(minutes=1)
         self._encode()
@@ -100,7 +101,7 @@ def load_access_token(token: str) -> AccessToken:
     return AccessToken(jwt_token=token)
 
 
-def load_refresh_token(token: str) -> RefreshToken:
+def load_refresh_token(token: Optional[str]) -> RefreshToken:
     if token is None:
         raise BadJWTError("Token is None")
     return RefreshToken(jwt_token=token)
