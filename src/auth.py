@@ -1,3 +1,7 @@
+"""
+Module containing code to authenticate with the UOWS
+"""
+
 import requests
 
 from src.exceptions import BadCredentialsError, UOWSError
@@ -16,12 +20,11 @@ def authenticate(credentials: UserCredentials) -> User:
         "https://devapi.facilities.rl.ac.uk/users-service/v0/sessions",
         json=data,
         headers={"Content-Type": "application/json"},
+        timeout=30,
     )
     if response.status_code == 201:
         return User(user_number=response.json()["userId"])
     if response.status_code == 401:
         raise BadCredentialsError("Invalid user credentials provided to authenticate with the user office web service.")
-    else:
-        raise UOWSError(
-            "An unexpected error occurred when authenticating with the user office web service %s", response.json()
-        )
+
+    raise UOWSError("An unexpected error occurred when authenticating with the user office web service")

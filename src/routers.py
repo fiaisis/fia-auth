@@ -2,6 +2,8 @@
 Module containing the fastapi routers
 """
 
+from __future__ import annotations
+
 import os
 from typing import List, Annotated, Dict, Any, Literal
 
@@ -41,6 +43,12 @@ async def get_experiments(
 
 @ROUTER.post("/api/jwt/authenticate", tags=["auth"])
 async def login(credentials: UserCredentials) -> JSONResponse:
+    """
+    Login with facilities account
+    \f
+    :param credentials: username and password
+    :return: JSON Response for access token and cookie set for refresh token
+    """
     try:
         user_number = authenticate(credentials)
         refresh_token = generate_refresh_token().jwt
@@ -50,10 +58,10 @@ async def login(credentials: UserCredentials) -> JSONResponse:
             "refresh-token", value=refresh_token, max_age=60 * 60 * 12, secure=True, httponly=True, samesite="lax"
         )  # 12 hours
         return response
-    except UOWSError:
-        raise HTTPException(status_code=403, detail="Forbidden")
-    except BadCredentialsError:
-        raise HTTPException(status_code=403, detail="Invalid")
+    except UOWSError as exc:
+        raise HTTPException(status_code=403, detail="Forbidden") from exc
+    except BadCredentialsError as exc:
+        raise HTTPException(status_code=403, detail="Invalid") from exc
 
 
 @ROUTER.post("/api/jwt/checkToken")
@@ -67,8 +75,8 @@ def verify(token: Dict[str, Any]) -> Literal["ok"]:
     try:
         load_access_token(token["token"]).verify()
         return "ok"
-    except BadJWTError:
-        raise HTTPException(status_code=403, detail="")
+    except BadJWTError as exc:
+        raise HTTPException(status_code=403, detail="") from exc
 
 
 @ROUTER.post("/api/jwt/refresh")
@@ -85,5 +93,5 @@ def refresh(token: Dict[str, Any], refresh_token: Annotated[str | None, Cookie()
         loaded_refresh_token.verify()
         access_token.refresh()
         return JSONResponse({"token": access_token.jwt})
-    except BadJWTError:
-        raise HTTPException(status_code=403)
+    except BadJWTError as exc:
+        raise HTTPException(status_code=403) from exc
