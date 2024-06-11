@@ -1,5 +1,6 @@
 from unittest.mock import patch, Mock
 
+import jwt
 from starlette.testclient import TestClient
 
 from src.app import app
@@ -51,8 +52,13 @@ def test_verify_success():
     assert response.status_code == 200
 
 
-def test_verify_fail():
+def test_verify_fail_badly_formed_token():
     response = client.post("/api/jwt/checkToken", json={"token": "foo"})
+    assert response.status_code == 403
+
+
+def test_verify_fail_bad_signature():
+    response = client.post("/api/jwt/checkToken", json={"token": jwt.encode({"foo": "bar"}, key="foo")})
     assert response.status_code == 403
 
 
