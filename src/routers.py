@@ -5,7 +5,7 @@ Module containing the fastapi routers
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING, Annotated, Any, Literal
+from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, Cookie, Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -14,10 +14,8 @@ from starlette.responses import JSONResponse
 from src.auth import authenticate
 from src.exceptions import UOWSError
 from src.experiments import get_experiments_for_user_number
+from src.model import UserCredentials  # noqa: TCH001   # Required for fastapi
 from src.tokens import generate_access_token, generate_refresh_token, load_access_token, load_refresh_token
-
-if TYPE_CHECKING:
-    from src.model import UserCredentials
 
 ROUTER = APIRouter()
 
