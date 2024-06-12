@@ -12,7 +12,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from starlette.responses import JSONResponse
 
 from src.auth import authenticate
-from src.exceptions import BadJWTError, UOWSError, BadCredentialsError
+from src.exceptions import UOWSError
 from src.experiments import get_experiments_for_user_number
 from src.model import UserCredentials
 from src.tokens import generate_refresh_token, generate_access_token, load_access_token, load_refresh_token
@@ -60,8 +60,6 @@ async def login(credentials: UserCredentials) -> JSONResponse:
         return response
     except UOWSError as exc:
         raise HTTPException(status_code=403, detail="Forbidden") from exc
-    except BadCredentialsError as exc:
-        raise HTTPException(status_code=403, detail="Invalid") from exc
 
 
 @ROUTER.post("/api/jwt/checkToken")
@@ -72,11 +70,8 @@ def verify(token: Dict[str, Any]) -> Literal["ok"]:
     :param token: The JWT
     :return: "OK"
     """
-    try:
-        load_access_token(token["token"]).verify()
-        return "ok"
-    except BadJWTError as exc:
-        raise HTTPException(status_code=403, detail="") from exc
+    load_access_token(token["token"]).verify()
+    return "ok"
 
 
 @ROUTER.post("/api/jwt/refresh")
@@ -87,11 +82,8 @@ def refresh(token: Dict[str, Any], refresh_token: Annotated[str | None, Cookie()
     :param token: The access token to be refreshed
     :return: The new access token
     """
-    try:
-        access_token = load_access_token(token["token"])
-        loaded_refresh_token = load_refresh_token(refresh_token)
-        loaded_refresh_token.verify()
-        access_token.refresh()
-        return JSONResponse({"token": access_token.jwt})
-    except BadJWTError as exc:
-        raise HTTPException(status_code=403) from exc
+    access_token = load_access_token(token["token"])
+    loaded_refresh_token = load_refresh_token(refresh_token)
+    loaded_refresh_token.verify()
+    access_token.refresh()
+    return JSONResponse({"token": access_token.jwt})
