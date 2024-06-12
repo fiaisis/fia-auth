@@ -69,7 +69,7 @@ class AccessToken(Token):
     def __init__(self, jwt_token: Optional[str] = None, payload: Optional[Dict[str, Any]] = None) -> None:
         if payload and not jwt_token:
             self._payload = payload
-            self._payload["exp"] = datetime.now(timezone.utc) + timedelta(minutes=1)
+            self._payload["exp"] = datetime.now(timezone.utc) + timedelta(minutes=5)
             self._encode()
         elif jwt_token and not payload:
             try:

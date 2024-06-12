@@ -73,7 +73,7 @@ def test_verify_general_exception(mock_logger, mock_decode):
 
     with pytest.raises(BadJWTError):
         token_instance.verify()
-    mock_logger.exception.assert_called_once_with("Oh Dear", exception)
+    mock_logger.exception.assert_called_once_with("Oh Dear")
 
 
 @patch("src.tokens.datetime")
@@ -87,7 +87,7 @@ def test_access_token_with_payload(_, mock_encode, mock_datetime):
     AccessToken(payload=payload)
 
     mock_encode.assert_called_once_with(
-        {"user": "test_user", "exp": fixed_time + timedelta(minutes=1)},
+        {"user": "test_user", "exp": fixed_time + timedelta(minutes=5)},
         b"shh",
         algorithm="HS256",
     )
@@ -168,11 +168,18 @@ def test_refresh_token_with_invalid_jwt(_):
         RefreshToken(jwt_token="invalid.jwt.token")
 
 
-def test_generate_access_token():
+@patch("src.tokens.datetime")
+def test_generate_access_token(mock_datetime):
     user = User(user_number=12345)
-
+    fixed_time = datetime(2000, 12, 12, 12, 0, tzinfo=timezone.utc)
+    mock_datetime.now.return_value = fixed_time
     access_token = generate_access_token(user)
 
-    expected_payload = {"usernumber": 12345, "role": "user", "username": "foo"}
+    expected_payload = {
+        "usernumber": 12345,
+        "role": "user",
+        "username": "foo",
+        "exp": fixed_time + timedelta(minutes=5),
+    }
 
     assert access_token._payload == expected_payload
