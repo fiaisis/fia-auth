@@ -7,13 +7,15 @@ from __future__ import annotations
 import logging
 import os
 from abc import ABC
-from datetime import datetime, timezone, timedelta
-from typing import Any, Dict, Optional
+from datetime import datetime, timedelta, timezone
+from typing import TYPE_CHECKING, Any
 
 import jwt
 
 from src.exceptions import BadJWTError
-from src.model import User
+
+if TYPE_CHECKING:
+    from src.model import User
 
 PRIVATE_KEY = os.environ.get("PRIVATE_KEY", "shh")
 logger = logging.getLogger(__name__)
@@ -33,7 +35,6 @@ class Token(ABC):
         :return: None
         """
         try:
-            # pylint: disable=attribute-defined-outside-init
             # class is abstract and all subclasses define payload within the init
             self._payload = jwt.decode(
                 self.jwt,
@@ -41,7 +42,7 @@ class Token(ABC):
                 algorithms=["HS256"],
                 options={"verify_signature": True, "require": ["exp"], "verify_exp": True},
             )
-            # pylint: enable=attribute-defined-outside-init
+
             return
         except jwt.InvalidSignatureError:
             logger.warning("token has bad signature - %s", self.jwt)
@@ -49,10 +50,10 @@ class Token(ABC):
             logger.warning("token signature is expired - %s", self.jwt)
         except jwt.InvalidTokenError:
             logger.warning("Issue decoding token - %s", self.jwt)
-        # pylint: disable=broad-exception-caught
+
         except Exception:
             logger.exception("Oh Dear")
-        # pylint: enable=broad-exception-caught
+
         raise BadJWTError("oh dear")
 
     def _encode(self) -> None:
@@ -66,7 +67,7 @@ class AccessToken(Token):
     Access Token is a short-lived (5 minute) token that stores user information
     """
 
-    def __init__(self, jwt_token: Optional[str] = None, payload: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, jwt_token: str | None = None, payload: dict[str, Any] | None = None) -> None:
         if payload and not jwt_token:
             self._payload = payload
             self._payload["exp"] = datetime.now(timezone.utc) + timedelta(minutes=5)
@@ -100,8 +101,7 @@ class RefreshToken(Token):
     Refresh token is a long-lived (12 hour) token that is required to refresh an access token
     """
 
-    def __init__(self, jwt_token: Optional[str] = None) -> None:
-
+    def __init__(self, jwt_token: str | None = None) -> None:
         if jwt_token is None:
             self._payload = {"exp": datetime.now(timezone.utc) + timedelta(hours=12)}
             self._encode()
@@ -141,7 +141,7 @@ def load_access_token(token: str) -> AccessToken:
     return AccessToken(jwt_token=token)
 
 
-def load_refresh_token(token: Optional[str]) -> RefreshToken:
+def load_refresh_token(token: str | None) -> RefreshToken:
     """
     Given a jwt string, return a refresh token object for it
     :param token: the jwt string

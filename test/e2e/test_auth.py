@@ -1,4 +1,4 @@
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 import jwt
 from starlette.testclient import TestClient
@@ -30,7 +30,7 @@ def test_unsuccessful_login(mock_post):
     mock_response.status_code = 401
 
     response = client.post("/api/jwt/authenticate", json={"username": "foo", "password": "foo"})
-    assert response.status_code == 403
+    assert response.status_code == 403  # noqa: PLR2004
 
 
 @patch("src.auth.requests.post")
@@ -41,7 +41,7 @@ def test_unsuccessful_login_uows_failure(mock_post):
     mock_response.status_code = 500
 
     response = client.post("/api/jwt/authenticate", json={"username": "foo", "password": "foo"})
-    assert response.status_code == 403
+    assert response.status_code == 403  # noqa: PLR2004
 
 
 def test_verify_success():
@@ -49,17 +49,17 @@ def test_verify_success():
     access_token = generate_access_token(user)
     response = client.post("/api/jwt/checkToken", json={"token": access_token.jwt})
 
-    assert response.status_code == 200
+    assert response.status_code == 200  # noqa: PLR2004
 
 
 def test_verify_fail_badly_formed_token():
     response = client.post("/api/jwt/checkToken", json={"token": "foo"})
-    assert response.status_code == 403
+    assert response.status_code == 403  # noqa: PLR2004
 
 
 def test_verify_fail_bad_signature():
     response = client.post("/api/jwt/checkToken", json={"token": jwt.encode({"foo": "bar"}, key="foo")})
-    assert response.status_code == 403
+    assert response.status_code == 403  # noqa: PLR2004
 
 
 def test_token_refresh_success():
@@ -81,17 +81,17 @@ def test_token_refresh_no_refresh_token_given():
         json={"token": access_token.jwt},
     )
 
-    assert response.status_code == 403
+    assert response.status_code == 403  # noqa: PLR2004
 
 
 def test_token_refresh_expired_refresh_token():
     user = User(123)
     access_token = generate_access_token(user)
     refresh_token = (
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTgwMjEyNDB9.iHITGf2RyX_49pY7Xy8xdutYE4Pc6k9mfKWQjxCKgOk"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTgwMjEyNDB9.iHITGf2RyX_49pY7Xy8xdutYE4Pc6k9mfKWQjxCKgOk"  # noqa: S105
     )
     response = client.post(
         "/api/jwt/refresh", json={"token": access_token.jwt}, cookies={"refresh_token": refresh_token}
     )
 
-    assert response.status_code == 403
+    assert response.status_code == 403  # noqa: PLR2004

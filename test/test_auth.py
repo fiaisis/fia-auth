@@ -1,4 +1,4 @@
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 import pytest
 
@@ -12,7 +12,7 @@ def test_authenticate_success(mock_post):
     mock_response = Mock(status_code=201, json=lambda: {"userId": "12345"})
     mock_post.return_value = mock_response
 
-    credentials = UserCredentials(username="valid_user", password="valid_password")
+    credentials = UserCredentials(username="valid_user", password="valid_password")  # noqa: S106
 
     user = authenticate(credentials)
 
@@ -30,7 +30,7 @@ def test_authenticate_bad_credentials(mock_post):
     mock_response = Mock(status_code=401, json=lambda: {})
     mock_post.return_value = mock_response
 
-    credentials = UserCredentials(username="invalid_user", password="invalid_password")
+    credentials = UserCredentials(username="invalid_user", password="invalid_password")  # noqa: S106
 
     with pytest.raises(BadCredentialsError) as exc_info:
         authenticate(credentials)
@@ -43,7 +43,7 @@ def test_authenticate_unexpected_error(mock_post):
     mock_response = Mock(status_code=500, json=lambda: {"error": "Server error"})
     mock_post.return_value = mock_response
 
-    credentials = UserCredentials(username="user", password="password")
+    credentials = UserCredentials(username="user", password="password")  # noqa: S106
 
     with pytest.raises(UOWSError) as exc_info:
         authenticate(credentials)

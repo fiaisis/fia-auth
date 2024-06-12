@@ -1,4 +1,4 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
 
 import jwt
@@ -6,7 +6,7 @@ import pytest
 
 from src.exceptions import BadJWTError
 from src.model import User
-from src.tokens import Token, AccessToken, RefreshToken, generate_access_token
+from src.tokens import AccessToken, RefreshToken, Token, generate_access_token
 
 
 @patch("jwt.decode")
@@ -78,8 +78,7 @@ def test_verify_general_exception(mock_logger, mock_decode):
 
 @patch("src.tokens.datetime")
 @patch("jwt.encode")
-@patch("jwt.decode")
-def test_access_token_with_payload(_, mock_encode, mock_datetime):
+def test_access_token_with_payload(mock_encode, mock_datetime):
     fixed_time = datetime(2021, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
     mock_datetime.now.return_value = fixed_time
     payload = {"user": "test_user"}
@@ -95,7 +94,7 @@ def test_access_token_with_payload(_, mock_encode, mock_datetime):
 
 @patch("jwt.decode")
 def test_access_token_with_jwt_token(mock_decode):
-    jwt_token = "encoded.jwt.token"
+    jwt_token = "encoded.jwt.token"  # noqa: S105
     expected_payload = {"exp": datetime.now(timezone.utc) + timedelta(minutes=1)}
     mock_decode.return_value = expected_payload
 
@@ -119,7 +118,7 @@ def test_access_token_with_both_none():
 @patch("jwt.encode")
 @patch("jwt.decode")
 def test_access_token_refresh(mock_decode, mock_encode):
-    jwt_token = "valid.jwt.token"
+    jwt_token = "valid.jwt.token"  # noqa: S105
     mock_decode.return_value = {"user": "test_user", "exp": datetime.now(timezone.utc)}
     token = AccessToken(jwt_token=jwt_token)
 
@@ -131,8 +130,7 @@ def test_access_token_refresh(mock_decode, mock_encode):
 
 @patch("src.tokens.datetime")
 @patch("jwt.encode")
-@patch("jwt.decode")
-def test_refresh_token_creation_no_jwt(_, mock_encode, mock_datetime):
+def test_refresh_token_creation_no_jwt(mock_encode, mock_datetime):
     fixed_time = datetime(2021, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
     mock_datetime.now.return_value = fixed_time
 
@@ -147,7 +145,7 @@ def test_refresh_token_creation_no_jwt(_, mock_encode, mock_datetime):
 
 @patch("jwt.decode")
 def test_refresh_token_creation_with_jwt(mock_decode):
-    jwt_token = "encoded.jwt.token"
+    jwt_token = "encoded.jwt.token"  # noqa: S105
     expected_payload = {"exp": datetime.now(timezone.utc) + timedelta(hours=12)}
     mock_decode.return_value = expected_payload
 
@@ -162,10 +160,11 @@ def test_refresh_token_creation_with_jwt(mock_decode):
     )
 
 
-@patch("jwt.decode", side_effect=BadJWTError)
-def test_refresh_token_with_invalid_jwt(_):
+@patch("jwt.decode")
+def test_refresh_token_with_invalid_jwt(mock_decode):
+    mock_decode.side_effect = BadJWTError
     with pytest.raises(BadJWTError):
-        RefreshToken(jwt_token="invalid.jwt.token")
+        RefreshToken(jwt_token="invalid.jwt.token")  # noqa: S106
 
 
 @patch("src.tokens.datetime")

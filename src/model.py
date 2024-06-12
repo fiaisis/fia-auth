@@ -40,5 +40,5 @@ class User:
         Determine and determine the role of the user based on their usernumber
         :return:
         """
-        # TODO: Actually assign a role
+        # TODO: Actually assign a role  # noqa: FIX002, TD002, TD003
         return Role.USER

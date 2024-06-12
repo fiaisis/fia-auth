@@ -5,8 +5,7 @@ Module containing code to authenticate with the UOWS
 import requests
 
 from src.exceptions import BadCredentialsError, UOWSError
-from src.model import User
-from src.model import UserCredentials
+from src.model import User, UserCredentials
 
 
 def authenticate(credentials: UserCredentials) -> User:
@@ -22,9 +21,9 @@ def authenticate(credentials: UserCredentials) -> User:
         headers={"Content-Type": "application/json"},
         timeout=30,
     )
-    if response.status_code == 201:
+    if response.status_code == 201:  # noqa: PLR2004
         return User(user_number=response.json()["userId"])
-    if response.status_code == 401:
+    if response.status_code == 401:  # noqa: PLR2004
         raise BadCredentialsError("Invalid user credentials provided to authenticate with the user office web service.")
 
     raise UOWSError("An unexpected error occurred when authenticating with the user office web service")
