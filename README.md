@@ -1,6 +1,6 @@
 # fia-auth
 [![codecov](https://codecov.io/gh/fiaisis/fia-auth/graph/badge.svg?token=lzm0DS1jhG)](https://codecov.io/gh/fiaisis/fia-auth)
-![License: GPL-3.0](https://img.shields.io/github/license/fiaisis/run-detection)
+![License: GPL-3.0](https://img.shields.io/github/license/fiaisis/fia-auth)
 ![Build: passing](https://img.shields.io/github/actions/workflow/status/fiaisis/fia-auth/tests.yml?branch=main)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-30173d)](https://docs.astral.sh/ruff/)
 [![linting: ruff](https://img.shields.io/badge/linting-ruff-30173d)](https://docs.astral.sh/ruff/)
