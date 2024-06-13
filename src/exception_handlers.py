@@ -10,6 +10,6 @@ async def auth_error_handler(_: Request, __: Exception) -> JSONResponse:
     :return: JSONResponse with 404
     """
     return JSONResponse(
-        status_code=403,
+        status_code=HTTPStatus.FORBIDDEN,
         content={"message": "Forbidden"},
     )
