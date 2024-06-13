@@ -11,9 +11,13 @@ class ProposalAllocationsError(Exception):
     """Problem connecting with the proposal allocations api"""
 
 
-class BadCredentialsError(Exception):
+class AuthenticationError(Exception):
+    """Problem with authentication mechanism"""
+
+
+class BadCredentialsError(AuthenticationError):
     """ "Bad Credentials Provided"""
 
 
-class BadJWTError(Exception):
+class BadJWTError(AuthenticationError):
     """Raised when a bad jwt has been given to the service"""

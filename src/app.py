@@ -5,6 +5,8 @@ Module containing the fast api app. Uvicorn loads this to start the api
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
+from src.exception_handlers import auth_error_handler
+from src.exceptions import AuthenticationError
 from src.routers import ROUTER
 
 app = FastAPI()
@@ -19,3 +21,5 @@ app.add_middleware(
 )
 
 app.include_router(ROUTER)
+
+app.add_exception_handler(AuthenticationError, auth_error_handler)
