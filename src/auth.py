@@ -23,7 +23,7 @@ def authenticate(credentials: UserCredentials) -> User:
     )
     if response.status_code == HTTPStatus.CREATED:
         return User(user_number=response.json()["userId"])
-    if response.status_code == 401:  # noqa: PLR2004
+    if response.status_code == HTTPStatus.UNAUTHORIZED:
         raise BadCredentialsError("Invalid user credentials provided to authenticate with the user office web service.")
 
     raise UOWSError("An unexpected error occurred when authenticating with the user office web service")
