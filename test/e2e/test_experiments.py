@@ -2,6 +2,7 @@
 e2e test cases
 """
 
+from http import HTTPStatus
 from unittest.mock import patch
 
 from starlette.testclient import TestClient

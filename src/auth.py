@@ -2,6 +2,8 @@
 Module containing code to authenticate with the UOWS
 """
 
+from http import HTTPStatus
+
 import requests
 
 from src.exceptions import BadCredentialsError, UOWSError
