@@ -73,7 +73,7 @@ def test_verify_general_exception(mock_logger, mock_decode):
 
     with pytest.raises(BadJWTError):
         token_instance.verify()
-    mock_logger.exception.assert_called_once_with("Oh Dear")
+    mock_logger.exception.assert_called_once_with("JWT verification Failed for unknown reason")
 
 
 @patch("src.tokens.datetime")
