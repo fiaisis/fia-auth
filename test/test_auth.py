@@ -41,7 +41,7 @@ def test_authenticate_bad_credentials(mock_post):
 
 @patch("requests.post")
 def test_authenticate_unexpected_error(mock_post):
-    mock_response = Mock(status_code=500, json=lambda: {"error": "Server error"})
+    mock_response = Mock(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, json=lambda: {"error": "Server error"})
     mock_post.return_value = mock_response
 
     credentials = UserCredentials(username="user", password="password")  # noqa: S106
