@@ -33,7 +33,7 @@ def test_get_experiments_with_missing_api_key_returns_403():
 
 def test_get_experiments_with_bad_api_key_returns_403():
     response = client.get("/experiments?user_number=123", headers={"Authorization": "Bearer 123"})
-    assert response.status_code == 403  # noqa: PLR2004
+    assert response.status_code == HTTPStatus.FORBIDDEN
 
 
 @patch("src.experiments.Client.execute_async")
