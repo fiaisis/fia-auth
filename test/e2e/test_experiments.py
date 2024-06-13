@@ -40,7 +40,7 @@ def test_get_experiments_with_bad_api_key_returns_403():
 def test_get_experiments_none_exist_for_user_returns_empty(mock_exec):
     mock_exec.return_value = ALLOCATIONS_EMPTY_RESPONSE
     response = client.get("/experiments?user_number=123", headers={"Authorization": "Bearer shh"})
-    assert response.status_code == 200  # noqa: PLR2004
+    assert response.status_code == HTTPStatus.OK
     assert response.json() == []
 
 
