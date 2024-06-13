@@ -10,7 +10,7 @@ from src.model import UserCredentials
 
 @patch("requests.post")
 def test_authenticate_success(mock_post):
-    mock_response = Mock(status_code=201, json=lambda: {"userId": "12345"})
+    mock_response = Mock(status_code=HTTPStatus.CREATED, json=lambda: {"userId": "12345"})
     mock_post.return_value = mock_response
 
     credentials = UserCredentials(username="valid_user", password="valid_password")  # noqa: S106
