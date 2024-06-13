@@ -29,12 +29,6 @@ def test_unsuccessful_login(mock_post):
 
     mock_response.status_code = 401
 
-
-
-
-
-
-
     response = client.post("/api/jwt/authenticate", json={"username": "foo", "password": "foo"})
     assert response.status_code == 403  # noqa: PLR2004
 
