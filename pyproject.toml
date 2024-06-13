@@ -16,7 +16,7 @@ dependencies = [
 "Repository" = "https://github.com/fiaisis/fia-auth"
 
 [project.optional-dependencies]
-code-inspection = [
+formatting = [
     "ruff==0.4.8",
     "mypy==1.10.0",
     "types-requests==2.32.0.20240602"
