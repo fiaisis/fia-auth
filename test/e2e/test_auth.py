@@ -87,7 +87,9 @@ def test_token_refresh_no_refresh_token_given():
 def test_token_refresh_expired_refresh_token():
     user = User(123)
     access_token = generate_access_token(user)
-    refresh_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTgwMjEyNDB9.iHITGf2RyX_49pY7Xy8xdutYE4Pc6k9mfKWQjxCKgOk"  # noqa: S105
+    refresh_token = (
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTgwMjEyNDB9.iHITGf2RyX_49pY7Xy8xdutYE4Pc6k9mfKWQjxCKgOk"  # noqa: S105
+    )
     response = client.post(
         "/api/jwt/refresh", json={"token": access_token.jwt}, cookies={"refresh_token": refresh_token}
     )
