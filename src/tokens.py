@@ -54,7 +54,7 @@ class Token(ABC):
         except Exception:
             logger.exception("Oh Dear")
 
-        raise BadJWTError("oh dear")
+        raise BadJWTError("jwt token verification failed")
 
     def _encode(self) -> None:
         bytes_key = bytes(PRIVATE_KEY, encoding="utf8")
