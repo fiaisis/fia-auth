@@ -29,7 +29,7 @@ def test_authenticate_success(mock_post):
 
 @patch("requests.post")
 def test_authenticate_bad_credentials(mock_post):
-    mock_response = Mock(status_code=401, json=lambda: {})
+    mock_response = Mock(status_code=HTTPStatus.UNAUTHORIZED, json=lambda: {})
     mock_post.return_value = mock_response
 
     credentials = UserCredentials(username="invalid_user", password="invalid_password")  # noqa: S106
