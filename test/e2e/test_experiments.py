@@ -48,5 +48,5 @@ def test_get_experiments_none_exist_for_user_returns_empty(mock_exec):
 def test_get_experiments_for_user(mock_exec):
     mock_exec.return_value = ALLOCATIONS_RESPONSE
     response = client.get("/experiments?user_number=123", headers={"Authorization": "Bearer shh"})
-    assert response.status_code == 200  # noqa: PLR2004
+    assert response.status_code == HTTPStatus.OK
     assert response.json() == [9723, 2200087, 2200084, 2200081, 2200083, 2200085, 2200086, 2200082, 1620354]
