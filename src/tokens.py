@@ -50,9 +50,8 @@ class Token(ABC):
             logger.warning("token signature is expired - %s", self.jwt)
         except jwt.InvalidTokenError:
             logger.warning("Issue decoding token - %s", self.jwt)
-
         except Exception:
-            logger.exception("Oh Dear")
+            logger.exception("JWT verification Failed for unknown reason")
 
         raise BadJWTError("jwt token verification failed")
 
