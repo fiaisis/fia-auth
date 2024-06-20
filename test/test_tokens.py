@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta, timezone
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import jwt
 import pytest
 
 from src.exceptions import BadJWTError
-from src.model import User
+from src.model import Role
 from src.tokens import AccessToken, RefreshToken, Token, generate_access_token
 
 
@@ -167,11 +167,12 @@ def test_refresh_token_with_invalid_jwt(mock_decode):
         RefreshToken(jwt_token="invalid.jwt.token")  # noqa: S106
 
 
-@patch("src.db.is_staff_user")
+
 @patch("src.tokens.datetime")
-def test_generate_access_token(mock_datetime, mock_is_staff_user):
-    user = User(user_number=12345)
-    mock_is_staff_user.return_value = False
+def test_generate_access_token(mock_datetime):
+    user = Mock()
+    user.user_number = 12345
+    user.role = Role.USER
     fixed_time = datetime(2000, 12, 12, 12, 0, tzinfo=timezone.utc)
     mock_datetime.now.return_value = fixed_time
     access_token = generate_access_token(user)
