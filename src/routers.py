@@ -81,11 +81,13 @@ def verify(token: dict[str, Any]) -> Literal["ok"]:
 
 
 @ROUTER.post("/api/jwt/refresh")
-def refresh(body: dict[str, Any], refresh_token: Annotated[str | None, Cookie(alias="scigateway:refresh_token")] = None) -> JSONResponse:
+def refresh(
+    body: dict[str, Any], refresh_token: Annotated[str | None, Cookie(alias="scigateway:refresh_token")] = None
+) -> JSONResponse:
     """
     Refresh an access token based on a refresh token
     \f
-    :param refresh_token: 
+    :param refresh_token:
     :param token: The access token to be refreshed
     :return: The new access token
     """
