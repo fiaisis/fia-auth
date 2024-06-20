@@ -1,6 +1,7 @@
 """
 e2e session scoped fixtures
 """
+
 import pytest
 
 from src.db import ENGINE, Base
