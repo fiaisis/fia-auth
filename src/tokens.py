@@ -69,7 +69,7 @@ class AccessToken(Token):
     def __init__(self, jwt_token: str | None = None, payload: dict[str, Any] | None = None) -> None:
         if payload and not jwt_token:
             self._payload = payload
-            self._payload["exp"] = datetime.now(timezone.utc) + timedelta(minutes=5)
+            self._payload["exp"] = datetime.now(timezone.utc) + timedelta(minutes=10)
             self._encode()
         elif jwt_token and not payload:
             try:
@@ -87,11 +87,11 @@ class AccessToken(Token):
 
     def refresh(self) -> None:
         """
-        Refresh the access token by extending the expiry time by 5 minutes and resigning
+        Refresh the access token by extending the expiry time by 10 minutes and resigning
         :return: None
         """
         self.verify()
-        self._payload["exp"] = datetime.now(timezone.utc) + timedelta(minutes=5)
+        self._payload["exp"] = datetime.now(timezone.utc) + timedelta(minutes=10)
         self._encode()
 
 

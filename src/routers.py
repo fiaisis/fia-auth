@@ -8,8 +8,8 @@ import os
 from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, Cookie, Depends, HTTPException
+from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from starlette.responses import JSONResponse
 
 from src.auth import authenticate
 from src.exceptions import UOWSError
@@ -21,7 +21,7 @@ ROUTER = APIRouter()
 
 security = HTTPBearer(scheme_name="APIKey", description="API Key for internal routes")
 
-API_KEY = os.environ.get("API_KEY", "shh")
+API_KEY = os.environ.get("FIA_AUTH_API_KEY", "shh")
 
 
 @ROUTER.get("/experiments", tags=["internal"])
@@ -55,7 +55,13 @@ async def login(credentials: UserCredentials) -> JSONResponse:
         access_token = generate_access_token(user_number).jwt
         response = JSONResponse(content={"token": access_token}, status_code=200)
         response.set_cookie(
-            "refresh-token", value=refresh_token, max_age=60 * 60 * 12, secure=True, httponly=True, samesite="lax"
+            "refresh_token",
+            value=refresh_token,
+            max_age=60 * 60 * 12,
+            secure=True,
+            httponly=True,
+            samesite="lax",
+            path="/api/jwt/refresh",
         )  # 12 hours
         return response
     except UOWSError as exc:
@@ -75,14 +81,16 @@ def verify(token: dict[str, Any]) -> Literal["ok"]:
 
 
 @ROUTER.post("/api/jwt/refresh")
-def refresh(token: dict[str, Any], refresh_token: Annotated[str | None, Cookie()] = None) -> JSONResponse:
+def refresh(body: dict[str, Any], refresh_token: Annotated[str | None, Cookie(alias="scigateway:refresh_token")] = None) -> JSONResponse:
     """
     Refresh an access token based on a refresh token
     \f
+    :param refresh_token: 
     :param token: The access token to be refreshed
     :return: The new access token
     """
-    access_token = load_access_token(token["token"])
+    access_token = load_access_token(body["token"])
+
     loaded_refresh_token = load_refresh_token(refresh_token)
     loaded_refresh_token.verify()
     access_token.refresh()
