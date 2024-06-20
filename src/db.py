@@ -1,6 +1,7 @@
 """
 DB Access moculde
 """
+
 import logging
 import os
 
@@ -10,10 +11,12 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 
 logger = logging.getLogger(__name__)
 
+
 class Base(DeclarativeBase):
     """
     SQLAlchemy Base Model
     """
+
     id: Mapped[int] = mapped_column(primary_key=True)
 
 
@@ -21,6 +24,7 @@ class Staff(Base):
     """
     Staff user
     """
+
     __tablename__ = "staff"
     user_number: Mapped[int] = mapped_column(Integer())
 
@@ -36,6 +40,7 @@ ENGINE = create_engine(
 
 SESSION = sessionmaker(ENGINE)
 
+
 def is_staff_user(user_number: int) -> bool:
     """
     Given a user_number, check if it is a staff
@@ -50,6 +55,8 @@ def is_staff_user(user_number: int) -> bool:
     except NoResultFound:
         return False
     except MultipleResultsFound:
-        logger.warning(f"Multiple staff users found for user_number: {user_number}. This should not be possible. Check "
-                       f"integrity of the table")
+        logger.warning(
+            f"Multiple staff users found for user_number: {user_number}. This should not be possible. Check "
+            f"integrity of the table"
+        )
         return False
