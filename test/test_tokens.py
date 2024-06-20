@@ -167,7 +167,6 @@ def test_refresh_token_with_invalid_jwt(mock_decode):
         RefreshToken(jwt_token="invalid.jwt.token")  # noqa: S106
 
 
-
 @patch("src.tokens.datetime")
 def test_generate_access_token(mock_datetime):
     user = Mock()
