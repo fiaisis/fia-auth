@@ -86,7 +86,7 @@ def test_access_token_with_payload(mock_encode, mock_datetime):
     AccessToken(payload=payload)
 
     mock_encode.assert_called_once_with(
-        {"user": "test_user", "exp": fixed_time + timedelta(minutes=5)},
+        {"user": "test_user", "exp": fixed_time + timedelta(minutes=10)},
         b"shh",
         algorithm="HS256",
     )
@@ -178,7 +178,7 @@ def test_generate_access_token(mock_datetime):
         "usernumber": 12345,
         "role": "user",
         "username": "foo",
-        "exp": fixed_time + timedelta(minutes=5),
+        "exp": fixed_time + timedelta(minutes=10),
     }
 
     assert access_token._payload == expected_payload
