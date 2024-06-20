@@ -7,6 +7,8 @@ from dataclasses import dataclass
 
 from pydantic import BaseModel
 
+from src.db import is_staff_user
+
 
 class UserCredentials(BaseModel):
     """
@@ -40,5 +42,6 @@ class User:
         Determine and determine the role of the user based on their usernumber
         :return:
         """
-        # TODO: Actually assign a role  # noqa: FIX002, TD002, TD003
+        if is_staff_user(self.user_number):
+            return Role.STAFF
         return Role.USER
