@@ -15,7 +15,7 @@ import jwt
 from fia_auth.exceptions import BadJWTError
 
 if TYPE_CHECKING:
-    from src.model import User
+    from fia_auth.model import User
 
 PRIVATE_KEY = os.environ.get("PRIVATE_KEY", "shh")
 logger = logging.getLogger(__name__)
