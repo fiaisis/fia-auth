@@ -10,7 +10,7 @@ from fia_auth.tokens import AccessToken, RefreshToken, Token, generate_access_to
 
 
 @patch("jwt.decode")
-@patch("src.tokens.logger")
+@patch("fia_auth.tokens.logger")
 def test_verify_success(mock_logger, mock_decode):
     token_instance = Token()
     token_instance.jwt = "valid_jwt_token"
@@ -28,7 +28,7 @@ def test_verify_success(mock_logger, mock_decode):
 
 
 @patch("jwt.decode")
-@patch("src.tokens.logger")
+@patch("fia_auth.tokens.logger")
 def test_verify_invalid_signature(mock_logger, mock_decode):
     token_instance = Token()
     token_instance.jwt = "bad_signature_jwt"
@@ -40,7 +40,7 @@ def test_verify_invalid_signature(mock_logger, mock_decode):
 
 
 @patch("jwt.decode")
-@patch("src.tokens.logger")
+@patch("fia_auth.tokens.logger")
 def test_verify_expired_signature(mock_logger, mock_decode):
     token_instance = Token()
     token_instance.jwt = "expired_jwt_token"
@@ -52,7 +52,7 @@ def test_verify_expired_signature(mock_logger, mock_decode):
 
 
 @patch("jwt.decode")
-@patch("src.tokens.logger")
+@patch("fia_auth.tokens.logger")
 def test_verify_invalid_token(mock_logger, mock_decode):
     token_instance = Token()
     token_instance.jwt = "invalid_jwt_token"
@@ -64,7 +64,7 @@ def test_verify_invalid_token(mock_logger, mock_decode):
 
 
 @patch("jwt.decode")
-@patch("src.tokens.logger")
+@patch("fia_auth.tokens.logger")
 def test_verify_general_exception(mock_logger, mock_decode):
     token_instance = Token()
     token_instance.jwt = "jwt_with_general_issue"
@@ -76,7 +76,7 @@ def test_verify_general_exception(mock_logger, mock_decode):
     mock_logger.exception.assert_called_once_with("JWT verification Failed for unknown reason")
 
 
-@patch("src.tokens.datetime")
+@patch("fia_auth.tokens.datetime")
 @patch("jwt.encode")
 def test_access_token_with_payload(mock_encode, mock_datetime):
     fixed_time = datetime(2021, 1, 1, 12, 0, 0, tzinfo=UTC)
@@ -128,7 +128,7 @@ def test_access_token_refresh(mock_decode, mock_encode):
     assert args[0]["exp"] > datetime.now(UTC)  # checks if the expiration time is extended
 
 
-@patch("src.tokens.datetime")
+@patch("fia_auth.tokens.datetime")
 @patch("jwt.encode")
 def test_refresh_token_creation_no_jwt(mock_encode, mock_datetime):
     fixed_time = datetime(2021, 1, 1, 12, 0, 0, tzinfo=UTC)
@@ -167,7 +167,7 @@ def test_refresh_token_with_invalid_jwt(mock_decode):
         RefreshToken(jwt_token="invalid.jwt.token")  # noqa: S106
 
 
-@patch("src.tokens.datetime")
+@patch("fia_auth.tokens.datetime")
 def test_generate_access_token(mock_datetime):
     user = User(user_number=12345)
     fixed_time = datetime(2000, 12, 12, 12, 0, tzinfo=UTC)

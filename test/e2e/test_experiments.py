@@ -37,7 +37,7 @@ def test_get_experiments_with_bad_api_key_returns_403():
     assert response.status_code == HTTPStatus.FORBIDDEN
 
 
-@patch("src.experiments.Client.execute_async")
+@patch("fia_auth.experiments.Client.execute_async")
 def test_get_experiments_none_exist_for_user_returns_empty(mock_exec):
     mock_exec.return_value = ALLOCATIONS_EMPTY_RESPONSE
     response = client.get("/experiments?user_number=123", headers={"Authorization": "Bearer shh"})
@@ -45,7 +45,7 @@ def test_get_experiments_none_exist_for_user_returns_empty(mock_exec):
     assert response.json() == []
 
 
-@patch("src.experiments.Client.execute_async")
+@patch("fia_auth.experiments.Client.execute_async")
 def test_get_experiments_for_user(mock_exec):
     mock_exec.return_value = ALLOCATIONS_RESPONSE
     response = client.get("/experiments?user_number=123", headers={"Authorization": "Bearer shh"})
