@@ -10,7 +10,7 @@ from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from gql.transport.exceptions import TransportError
 
-from src.exceptions import ProposalAllocationsError
+from fia_auth.exceptions import ProposalAllocationsError
 
 logger = logging.getLogger(__name__)
 

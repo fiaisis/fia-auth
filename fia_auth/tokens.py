@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, Any
 
 import jwt
 
-from src.exceptions import BadJWTError
+from fia_auth.exceptions import BadJWTError
 
 if TYPE_CHECKING:
     from src.model import User
