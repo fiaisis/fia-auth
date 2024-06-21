@@ -7,7 +7,7 @@ from __future__ import annotations
 import logging
 import os
 from abc import ABC
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import TYPE_CHECKING, Any
 
 import jwt
@@ -69,7 +69,7 @@ class AccessToken(Token):
     def __init__(self, jwt_token: str | None = None, payload: dict[str, Any] | None = None) -> None:
         if payload and not jwt_token:
             self._payload = payload
-            self._payload["exp"] = datetime.now(timezone.utc) + timedelta(minutes=5)
+            self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=5)
             self._encode()
         elif jwt_token and not payload:
             try:
@@ -91,7 +91,7 @@ class AccessToken(Token):
         :return: None
         """
         self.verify()
-        self._payload["exp"] = datetime.now(timezone.utc) + timedelta(minutes=5)
+        self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=5)
         self._encode()
 
 
@@ -102,7 +102,7 @@ class RefreshToken(Token):
 
     def __init__(self, jwt_token: str | None = None) -> None:
         if jwt_token is None:
-            self._payload = {"exp": datetime.now(timezone.utc) + timedelta(hours=12)}
+            self._payload = {"exp": datetime.now(UTC) + timedelta(hours=12)}
             self._encode()
         else:
             self.jwt = jwt_token

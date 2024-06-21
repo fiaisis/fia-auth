@@ -2,11 +2,10 @@ from http import HTTPStatus
 from unittest.mock import Mock, patch
 
 import jwt
-from starlette.testclient import TestClient
-
 from src.app import app
 from src.model import User
 from src.tokens import generate_access_token, generate_refresh_token
+from starlette.testclient import TestClient
 
 client = TestClient(app)
 

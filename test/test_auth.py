@@ -2,7 +2,6 @@ from http import HTTPStatus
 from unittest.mock import Mock, patch
 
 import pytest
-
 from src.auth import authenticate
 from src.exceptions import BadCredentialsError, UOWSError
 from src.model import UserCredentials
