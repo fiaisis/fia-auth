@@ -4,14 +4,14 @@ from unittest.mock import Mock, patch
 import jwt
 from starlette.testclient import TestClient
 
-from src.app import app
-from src.model import User
-from src.tokens import generate_access_token, generate_refresh_token
+from fia_auth.fia_auth import app
+from fia_auth.model import User
+from fia_auth.tokens import generate_access_token, generate_refresh_token
 
 client = TestClient(app)
 
 
-@patch("src.auth.requests.post")
+@patch("fia_auth.auth.requests.post")
 def test_successful_login(mock_post):
     mock_response = Mock()
     mock_post.return_value = mock_response
@@ -23,7 +23,7 @@ def test_successful_login(mock_post):
     assert response.cookies["refresh-token"].startswith("ey")
 
 
-@patch("src.auth.requests.post")
+@patch("fia_auth.auth.requests.post")
 def test_unsuccessful_login(mock_post):
     mock_response = Mock()
     mock_post.return_value = mock_response
@@ -34,7 +34,7 @@ def test_unsuccessful_login(mock_post):
     assert response.status_code == HTTPStatus.FORBIDDEN
 
 
-@patch("src.auth.requests.post")
+@patch("fia_auth.auth.requests.post")
 def test_unsuccessful_login_uows_failure(mock_post):
     mock_response = Mock()
     mock_post.return_value = mock_response
