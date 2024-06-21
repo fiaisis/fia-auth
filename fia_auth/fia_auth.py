@@ -11,15 +11,14 @@ from fia_auth.routers import ROUTER
 
 ALLOWED_ORIGINS = ["*"]
 
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.include_router(ROUTER)
+app.add_exception_handler(AuthenticationError, auth_error_handler)
 
-def main():
-    app = FastAPI()
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=ALLOWED_ORIGINS,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-    app.include_router(ROUTER)
-    app.add_exception_handler(AuthenticationError, auth_error_handler)
