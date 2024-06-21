@@ -3,9 +3,10 @@ from unittest.mock import patch
 
 import jwt
 import pytest
-from src.exceptions import BadJWTError
-from src.model import User
-from src.tokens import AccessToken, RefreshToken, Token, generate_access_token
+
+from fia_auth.exceptions import BadJWTError
+from fia_auth.model import User
+from fia_auth.tokens import AccessToken, RefreshToken, Token, generate_access_token
 
 
 @patch("jwt.decode")

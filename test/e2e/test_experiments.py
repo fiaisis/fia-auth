@@ -5,8 +5,9 @@ e2e test cases
 from http import HTTPStatus
 from unittest.mock import patch
 
-from src.app import app
 from starlette.testclient import TestClient
+
+from fia_auth.fia_auth import app
 
 client = TestClient(app)
 
