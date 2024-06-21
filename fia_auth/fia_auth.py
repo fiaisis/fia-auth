@@ -21,4 +21,3 @@ app.add_middleware(
 )
 app.include_router(ROUTER)
 app.add_exception_handler(AuthenticationError, auth_error_handler)
-
