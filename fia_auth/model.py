@@ -6,7 +6,6 @@ import enum
 from dataclasses import dataclass
 
 from pydantic import BaseModel
-
 from src.db import is_staff_user
 
 
