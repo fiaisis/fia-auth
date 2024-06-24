@@ -21,7 +21,7 @@ def authenticate(credentials: UserCredentials) -> User:
     :param credentials: The user credentials
     :return: UserNumber
     """
-    data = ({"username": credentials.username, "password": credentials.password},)
+    data = {"username": credentials.username, "password": credentials.password}
     logger.info("Posting to UOWS")
     response = requests.post(
         f"{UOWS_URL}/v0/sessions",
