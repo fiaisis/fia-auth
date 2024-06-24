@@ -51,4 +51,4 @@ jobs:
           git push
 
       - name: Run MyPy
-        run: mypy --strict src
+        run: mypy --strict fia_auth

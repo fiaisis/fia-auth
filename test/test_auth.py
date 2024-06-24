@@ -3,9 +3,9 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from src.auth import authenticate
-from src.exceptions import BadCredentialsError, UOWSError
-from src.model import UserCredentials
+from fia_auth.auth import authenticate
+from fia_auth.exceptions import BadCredentialsError, UOWSError
+from fia_auth.model import UserCredentials
 
 
 @patch("requests.post")

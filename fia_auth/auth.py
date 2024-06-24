@@ -6,8 +6,8 @@ from http import HTTPStatus
 
 import requests
 
-from src.exceptions import BadCredentialsError, UOWSError
-from src.model import User, UserCredentials
+from fia_auth.exceptions import BadCredentialsError, UOWSError
+from fia_auth.model import User, UserCredentials
 
 
 def authenticate(credentials: UserCredentials) -> User:

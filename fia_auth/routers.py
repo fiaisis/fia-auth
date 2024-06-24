@@ -11,11 +11,11 @@ from fastapi import APIRouter, Cookie, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
-from src.auth import authenticate
-from src.exceptions import UOWSError
-from src.experiments import get_experiments_for_user_number
-from src.model import UserCredentials  # noqa: TCH001   # Required for fastapi
-from src.tokens import generate_access_token, generate_refresh_token, load_access_token, load_refresh_token
+from fia_auth.auth import authenticate
+from fia_auth.exceptions import UOWSError
+from fia_auth.experiments import get_experiments_for_user_number
+from fia_auth.model import UserCredentials  # noqa: TCH001   # Required for fastapi
+from fia_auth.tokens import generate_access_token, generate_refresh_token, load_access_token, load_refresh_token
 
 ROUTER = APIRouter()
 

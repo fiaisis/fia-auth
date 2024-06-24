@@ -3,7 +3,7 @@ name = "fia-auth"
 description = "Python microservice providing user authentication"
 readme = "README.md"
 version = "0.0.1"
-
+requires-python = ">= 3.11"
 dependencies = [
     "cryptography==42.0.7",
     "gql[all]==3.5.0",
@@ -35,7 +35,7 @@ test = [
 
 
 [tool.setuptools]
-packages = ["src"]
+packages = ["fia_auth"]
 
 [tool.ruff]
 line-length = 120
