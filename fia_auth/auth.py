@@ -35,5 +35,5 @@ def authenticate(credentials: UserCredentials) -> User:
     if response.status_code == HTTPStatus.UNAUTHORIZED:
         logger.info("Bad credentials given to UOWS")
         raise BadCredentialsError("Invalid user credentials provided to authenticate with the user office web service.")
-    logger.warning("Unexpected error occured when authentication with the UOWS")
+    logger.warning("Unexpected error occured when authentication with the UOWS: %s", response.text)
     raise UOWSError("An unexpected error occurred when authenticating with the user office web service")
