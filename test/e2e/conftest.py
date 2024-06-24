@@ -3,7 +3,8 @@ e2e session scoped fixtures
 """
 
 import pytest
-from src.db import ENGINE, Base
+
+from fia_auth.db import ENGINE, Base
 
 
 @pytest.fixture(scope="session", autouse=True)

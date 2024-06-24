@@ -6,7 +6,8 @@ import enum
 from dataclasses import dataclass
 
 from pydantic import BaseModel
-from src.db import is_staff_user
+
+from fia_auth.db import is_staff_user
 
 
 class UserCredentials(BaseModel):
