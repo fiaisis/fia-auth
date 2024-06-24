@@ -4,6 +4,7 @@ Module containing the fastapi routers
 
 from __future__ import annotations
 
+import logging
 import os
 from typing import Annotated, Any, Literal
 
@@ -23,6 +24,7 @@ security = HTTPBearer(scheme_name="APIKey", description="API Key for internal ro
 
 API_KEY = os.environ.get("FIA_AUTH_API_KEY", "shh")
 
+logger = logging.getLogger(__name__)
 
 @ROUTER.get("/experiments", tags=["internal"])
 async def get_experiments(
@@ -49,6 +51,7 @@ async def login(credentials: UserCredentials) -> JSONResponse:
     :param credentials: username and password
     :return: JSON Response for access token and cookie set for refresh token
     """
+    logger.info("Starting login for user %s", (credentials.username[0:2] + "****"))
     try:
         user_number = authenticate(credentials)
         refresh_token = generate_refresh_token().jwt

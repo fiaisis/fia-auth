@@ -1,7 +1,7 @@
 """
 Module containing code to authenticate with the UOWS
 """
-
+import logging
 from http import HTTPStatus
 
 import requests
@@ -9,6 +9,7 @@ import requests
 from fia_auth.exceptions import BadCredentialsError, UOWSError
 from fia_auth.model import User, UserCredentials
 
+logger = logging.getLogger(__name__)
 
 def authenticate(credentials: UserCredentials) -> User:
     """
@@ -17,6 +18,7 @@ def authenticate(credentials: UserCredentials) -> User:
     :return: UserNumber
     """
     data = ({"username": credentials.username, "password": credentials.password},)
+    logger.info("Posting to UOWS")
     response = requests.post(
         "https://devapi.facilities.rl.ac.uk/users-service/v0/sessions",
         json=data,
@@ -24,8 +26,10 @@ def authenticate(credentials: UserCredentials) -> User:
         timeout=30,
     )
     if response.status_code == HTTPStatus.CREATED:
+        logger.info("Session created with UOWS")
         return User(user_number=response.json()["userId"])
     if response.status_code == HTTPStatus.UNAUTHORIZED:
+        logger.info("Bad credentials given to UOWS")
         raise BadCredentialsError("Invalid user credentials provided to authenticate with the user office web service.")
-
+    logger.warning("Unexpected error occured when authentication with the UOWS")
     raise UOWSError("An unexpected error occurred when authenticating with the user office web service")
