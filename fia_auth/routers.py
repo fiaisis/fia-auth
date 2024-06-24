@@ -26,6 +26,7 @@ API_KEY = os.environ.get("FIA_AUTH_API_KEY", "shh")
 
 logger = logging.getLogger(__name__)
 
+
 @ROUTER.get("/experiments", tags=["internal"])
 async def get_experiments(
     user_number: int, credentials: Annotated[HTTPAuthorizationCredentials, Depends(security)]

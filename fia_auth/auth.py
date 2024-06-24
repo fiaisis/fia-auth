@@ -1,6 +1,7 @@
 """
 Module containing code to authenticate with the UOWS
 """
+
 import logging
 from http import HTTPStatus
 
@@ -10,6 +11,7 @@ from fia_auth.exceptions import BadCredentialsError, UOWSError
 from fia_auth.model import User, UserCredentials
 
 logger = logging.getLogger(__name__)
+
 
 def authenticate(credentials: UserCredentials) -> User:
     """
