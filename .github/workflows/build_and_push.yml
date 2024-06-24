@@ -28,7 +28,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.WRITE_PACKAGE_TOKEN }}
 
-      - name: Build and push run-detection Docker image
+      - name: Build and push fia-auth Docker image
         id: docker_build
         uses: docker/build-push-action@v5
         with:
