@@ -3,6 +3,7 @@ Module containing code to authenticate with the UOWS
 """
 
 import logging
+import os
 from http import HTTPStatus
 
 import requests
@@ -11,6 +12,7 @@ from fia_auth.exceptions import BadCredentialsError, UOWSError
 from fia_auth.model import User, UserCredentials
 
 logger = logging.getLogger(__name__)
+UOWS_URL = os.environ.get("UOWS_URL", "https://devapi.facilities.rl.ac.uk/users-service")
 
 
 def authenticate(credentials: UserCredentials) -> User:
@@ -22,7 +24,7 @@ def authenticate(credentials: UserCredentials) -> User:
     data = ({"username": credentials.username, "password": credentials.password},)
     logger.info("Posting to UOWS")
     response = requests.post(
-        "https://devapi.facilities.rl.ac.uk/users-service/v0/sessions",
+        f"{UOWS_URL}/v0/sessions",
         json=data,
         headers={"Content-Type": "application/json"},
         timeout=30,
