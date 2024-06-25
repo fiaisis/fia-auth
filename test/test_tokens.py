@@ -106,7 +106,7 @@ def test_access_token_with_jwt_token(mock_decode):
         jwt_token,
         "shh",
         algorithms=["HS256"],
-        options={"verify_signature": True, "require": ["exp"], "verify_exp": True},
+        options={"verify_signature": True, "require": ["exp"], "verify_exp": False},
     )
 
 
