@@ -77,7 +77,7 @@ class AccessToken(Token):
                     jwt_token,
                     PRIVATE_KEY,
                     algorithms=["HS256"],
-                    options={"verify_signature": True, "require": ["exp"], "verify_exp": True},
+                    options={"verify_signature": True, "require": ["exp"], "verify_exp": False},
                 )
                 self.jwt = jwt_token
             except jwt.DecodeError as e:

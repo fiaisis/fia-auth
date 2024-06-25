@@ -22,7 +22,7 @@ def authenticate(credentials: UserCredentials) -> User:
     :return: UserNumber
     """
     data = {"username": credentials.username, "password": credentials.password}
-    logger.info("Posting to UOWS")
+    logger.info(f"Authentication user: {credentials.username[0:3]}*****")  # Partial reveal to help logging
     response = requests.post(
         f"{UOWS_URL}/v0/sessions",
         json=data,

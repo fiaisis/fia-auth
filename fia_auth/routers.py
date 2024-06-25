@@ -52,7 +52,7 @@ async def login(credentials: UserCredentials) -> JSONResponse:
     :param credentials: username and password
     :return: JSON Response for access token and cookie set for refresh token
     """
-    logger.info("Starting login for user %s", (credentials.username[0:2] + "****"))
+    logger.info("Starting login for user %s", (credentials.username[0:3] + "****"))
     try:
         user_number = authenticate(credentials)
         refresh_token = generate_refresh_token().jwt
@@ -80,7 +80,9 @@ def verify(token: dict[str, Any]) -> Literal["ok"]:
     :param token: The JWT
     :return: "OK"
     """
+    logger.info("Verifying token")
     load_access_token(token["token"]).verify()
+    logger.info("Token verified successfully")
     return "ok"
 
 
