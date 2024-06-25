@@ -1,6 +1,7 @@
 """
 Test cases for db module
 """
+
 from fia_auth.db import SESSION, Staff, is_staff_user
 
 
