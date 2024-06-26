@@ -18,6 +18,7 @@ if TYPE_CHECKING:
     from fia_auth.model import User
 
 PRIVATE_KEY = os.environ.get("PRIVATE_KEY", "shh")
+ACCESS_TOKEN_LIFETIME_MINUTES = os.environ.get("ACCESS_TOKEN_LIFETIME_MINUTES", 10)
 logger = logging.getLogger(__name__)
 
 
@@ -69,7 +70,7 @@ class AccessToken(Token):
     def __init__(self, jwt_token: str | None = None, payload: dict[str, Any] | None = None) -> None:
         if payload and not jwt_token:
             self._payload = payload
-            self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=10)
+            self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=ACCESS_TOKEN_LIFETIME_MINUTES)
             self._encode()
         elif jwt_token and not payload:
             try:
@@ -91,7 +92,7 @@ class AccessToken(Token):
         :return: None
         """
         self.verify()
-        self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=10)
+        self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=ACCESS_TOKEN_LIFETIME_MINUTES)
         self._encode()
 
 
