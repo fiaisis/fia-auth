@@ -8,7 +8,9 @@ dependencies = [
     "cryptography==42.0.7",
     "gql[all]==3.5.0",
     "fastapi[all]==0.111.0",
+    "psycopg2==2.9.9",
     "PyJWT==2.8.0",
+    "SQLAlchemy==2.0.30",
     "uvicorn==0.30.1"
 ]
 

@@ -10,9 +10,14 @@ You must be connected to the vpn to make use of the uows and allocations api.
 
 You must set the following Env vars:
 
-- UOWS_API_KEY
+- UOWS_API_KEY - The user office web service API Key
+- FIA_AUTH_API_KEY - The API key value fia-api needs to provide for experiment number endpoint
+- DB_USERNAME - DB Username
+- DB_PASSWORD - DB Password
+- DB_IP - IP or host of the database
+- PRIVATE_KEY - The secret value used to sign JWTs
 
 Additional env vars are optional for local testing:
 - ALLOCATIONS_URL - defaults to dev allocations
-- API_KEY - defaults to `"shh"` - This is the internal API key for the experiments endpoint
-
+- UOWS_URL - The url of the user office web service
+- ACCESS_TOKEN_LIFETIME_MINUTES - the lifetime of access tokens in minutes, defaults to 10

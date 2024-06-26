@@ -18,6 +18,7 @@ if TYPE_CHECKING:
     from fia_auth.model import User
 
 PRIVATE_KEY = os.environ.get("PRIVATE_KEY", "shh")
+ACCESS_TOKEN_LIFETIME_MINUTES = os.environ.get("ACCESS_TOKEN_LIFETIME_MINUTES", 10)
 logger = logging.getLogger(__name__)
 
 
@@ -69,7 +70,7 @@ class AccessToken(Token):
     def __init__(self, jwt_token: str | None = None, payload: dict[str, Any] | None = None) -> None:
         if payload and not jwt_token:
             self._payload = payload
-            self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=5)
+            self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=ACCESS_TOKEN_LIFETIME_MINUTES)
             self._encode()
         elif jwt_token and not payload:
             try:
@@ -77,7 +78,7 @@ class AccessToken(Token):
                     jwt_token,
                     PRIVATE_KEY,
                     algorithms=["HS256"],
-                    options={"verify_signature": True, "require": ["exp"], "verify_exp": True},
+                    options={"verify_signature": True, "require": ["exp"], "verify_exp": False},
                 )
                 self.jwt = jwt_token
             except jwt.DecodeError as e:
@@ -87,11 +88,11 @@ class AccessToken(Token):
 
     def refresh(self) -> None:
         """
-        Refresh the access token by extending the expiry time by 5 minutes and resigning
+        Refresh the access token by extending the expiry time by 10 minutes and resigning
         :return: None
         """
         self.verify()
-        self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=5)
+        self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=ACCESS_TOKEN_LIFETIME_MINUTES)
         self._encode()
 
 

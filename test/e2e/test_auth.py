@@ -20,7 +20,7 @@ def test_successful_login(mock_post):
     mock_response.json.return_value = {"userId": 1234}
     response = client.post("/api/jwt/authenticate", json={"username": "foo", "password": "foo"})
     assert response.json()["token"].startswith("ey")
-    assert response.cookies["refresh-token"].startswith("ey")
+    assert response.cookies["refresh_token"].startswith("ey")
 
 
 @patch("fia_auth.auth.requests.post")
@@ -70,7 +70,6 @@ def test_token_refresh_success():
     response = client.post(
         "/api/jwt/refresh", json={"token": access_token.jwt}, cookies={"refresh_token": refresh_token.jwt}
     )
-
     assert response.json()["token"].startswith("ey")
 
 

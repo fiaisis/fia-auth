@@ -1,11 +1,11 @@
 from datetime import UTC, datetime, timedelta
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import jwt
 import pytest
 
 from fia_auth.exceptions import BadJWTError
-from fia_auth.model import User
+from fia_auth.model import Role
 from fia_auth.tokens import AccessToken, RefreshToken, Token, generate_access_token
 
 
@@ -86,7 +86,7 @@ def test_access_token_with_payload(mock_encode, mock_datetime):
     AccessToken(payload=payload)
 
     mock_encode.assert_called_once_with(
-        {"user": "test_user", "exp": fixed_time + timedelta(minutes=5)},
+        {"user": "test_user", "exp": fixed_time + timedelta(minutes=10)},
         b"shh",
         algorithm="HS256",
     )
@@ -106,7 +106,7 @@ def test_access_token_with_jwt_token(mock_decode):
         jwt_token,
         "shh",
         algorithms=["HS256"],
-        options={"verify_signature": True, "require": ["exp"], "verify_exp": True},
+        options={"verify_signature": True, "require": ["exp"], "verify_exp": False},
     )
 
 
@@ -169,7 +169,10 @@ def test_refresh_token_with_invalid_jwt(mock_decode):
 
 @patch("fia_auth.tokens.datetime")
 def test_generate_access_token(mock_datetime):
-    user = User(user_number=12345)
+    user = Mock()
+    user.user_number = 12345
+    user.role = Role.USER
+    user.role = Role.USER
     fixed_time = datetime(2000, 12, 12, 12, 0, tzinfo=UTC)
     mock_datetime.now.return_value = fixed_time
     access_token = generate_access_token(user)
@@ -178,7 +181,7 @@ def test_generate_access_token(mock_datetime):
         "usernumber": 12345,
         "role": "user",
         "username": "foo",
-        "exp": fixed_time + timedelta(minutes=5),
+        "exp": fixed_time + timedelta(minutes=10),
     }
 
     assert access_token._payload == expected_payload
