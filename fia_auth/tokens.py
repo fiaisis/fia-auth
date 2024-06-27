@@ -17,7 +17,7 @@ from fia_auth.exceptions import BadJWTError
 if TYPE_CHECKING:
     from fia_auth.model import User
 
-PRIVATE_KEY = os.environ.get("PRIVATE_KEY", "shh")
+PRIVATE_KEY = os.environ.get("JWT_SECRET", "shh")
 ACCESS_TOKEN_LIFETIME_MINUTES = os.environ.get("ACCESS_TOKEN_LIFETIME_MINUTES", 10)
 logger = logging.getLogger(__name__)
 
