@@ -21,7 +21,7 @@ def test_authenticate_success(mock_post):
 
     mock_post.assert_called_once_with(
         "https://devapi.facilities.rl.ac.uk/users-service/v0/sessions",
-        json=({"username": "valid_user", "password": "valid_password"},),
+        json={"username": "valid_user", "password": "valid_password"},
         headers={"Content-Type": "application/json"},
         timeout=30,
     )

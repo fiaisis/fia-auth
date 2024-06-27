@@ -45,6 +45,16 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: fia
+        ports:
+          - 5432:5432
+
     steps:
       - name: Check out repository
         uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
