@@ -1,4 +1,5 @@
 """Model Tests"""
+
 from unittest.mock import patch
 
 from fia_auth.model import Role, User
@@ -20,5 +21,3 @@ def test_role_is_staff(mock_is_staff_user):
 
     user = User(user_number=1234)
     assert user.role == Role.STAFF
-
-
