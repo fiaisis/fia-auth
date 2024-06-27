@@ -72,7 +72,7 @@ class AccessToken(Token):
     def __init__(self, jwt_token: str | None = None, payload: dict[str, Any] | None = None) -> None:
         if payload and not jwt_token:
             self._payload = payload
-            self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=ACCESS_TOKEN_LIFETIME_MINUTES)
+            self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=float(ACCESS_TOKEN_LIFETIME_MINUTES))
             self._encode()
         elif jwt_token and not payload:
             try:
@@ -94,7 +94,7 @@ class AccessToken(Token):
         :return: None
         """
         self.verify()
-        self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=ACCESS_TOKEN_LIFETIME_MINUTES)
+        self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=float(ACCESS_TOKEN_LIFETIME_MINUTES))
         self._encode()
 
 
