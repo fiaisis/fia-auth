@@ -97,6 +97,7 @@ def refresh(
     :param token: The access token to be refreshed
     :return: The new access token
     """
+    logger.warning("hello")
     if refresh_token is None:
         raise HTTPException(500, detail="Refresh")
     logger.info("Loading access token for refresh")
