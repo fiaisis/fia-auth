@@ -95,9 +95,12 @@ def refresh(body: dict[str, Any], refresh_token: Annotated[str | None, Cookie()]
     :param token: The access token to be refreshed
     :return: The new access token
     """
+    logger.info("Loading access token for refresh")
     access_token = load_access_token(body["token"])
-
+    logger.info("Loading refresh token")
     loaded_refresh_token = load_refresh_token(refresh_token)
+    logger.info("Verifying refresh token")
     loaded_refresh_token.verify()
+    logger.info("refreshing access token")
     access_token.refresh()
     return JSONResponse({"token": access_token.jwt})
