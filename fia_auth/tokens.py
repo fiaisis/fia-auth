@@ -75,6 +75,7 @@ class AccessToken(Token):
             self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=float(ACCESS_TOKEN_LIFETIME_MINUTES))
             self._encode()
         elif jwt_token and not payload:
+            logger.warning("loading jwt")
             try:
                 self._payload = jwt.decode(
                     jwt_token,
@@ -84,6 +85,7 @@ class AccessToken(Token):
                 )
                 self.jwt = jwt_token
             except jwt.DecodeError as e:
+                logger.exception("Error decoding jwt")
                 raise BadJWTError("Token could not be decoded") from e
         else:
             raise BadJWTError("Access token creation requires jwt_token string XOR a payload")
