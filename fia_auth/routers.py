@@ -97,16 +97,8 @@ def refresh(
     :param token: The access token to be refreshed
     :return: The new access token
     """
-    logger.warning("hello")
-    if refresh_token is None:
-        raise HTTPException(500, detail="Refresh")
-    logger.warning("Loading access token for refresh")
     access_token = load_access_token(body["token"])
-    logger.warning("Loading refresh token")
     loaded_refresh_token = load_refresh_token(refresh_token)
-    logger.warning("Verifying refresh token")
     loaded_refresh_token.verify()
-    logger.warning("refreshing access token")
     access_token.refresh()
-    logger.warning("token refreshed")
     return JSONResponse({"token": access_token.jwt})
