@@ -65,7 +65,7 @@ async def login(credentials: UserCredentials) -> JSONResponse:
             secure=True,
             httponly=True,
             samesite="lax",
-            path="/api/jwt/refresh",
+            path="/auth/api/jwt/refresh",
         )  # 12 hours
         return response
     except UOWSError as exc:
@@ -87,7 +87,9 @@ def verify(token: dict[str, Any]) -> Literal["ok"]:
 
 
 @ROUTER.post("/api/jwt/refresh")
-def refresh(body: dict[str, Any], refresh_token: Annotated[str | None, Cookie()] = None) -> JSONResponse:
+def refresh(
+    body: dict[str, Any], refresh_token: Annotated[str | None, Cookie(alias="refresh_token")] = None
+) -> JSONResponse:
     """
     Refresh an access token based on a refresh token
     \f
@@ -96,7 +98,6 @@ def refresh(body: dict[str, Any], refresh_token: Annotated[str | None, Cookie()]
     :return: The new access token
     """
     access_token = load_access_token(body["token"])
-
     loaded_refresh_token = load_refresh_token(refresh_token)
     loaded_refresh_token.verify()
     access_token.refresh()
