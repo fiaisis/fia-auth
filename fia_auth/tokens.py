@@ -95,7 +95,6 @@ class AccessToken(Token):
         Refresh the access token by extending the expiry time by 10 minutes and resigning
         :return: None
         """
-        self.verify()
         self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=float(ACCESS_TOKEN_LIFETIME_MINUTES))
         self._encode()
 
