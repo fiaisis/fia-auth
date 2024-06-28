@@ -87,7 +87,9 @@ async def verify(token: dict[str, Any]) -> Literal["ok"]:
 
 
 @ROUTER.post("/api/jwt/refresh")
-async def refresh(body: dict[str, Any], refresh_token: Annotated[str | None, Cookie(alias="refresh_token")] = None) -> JSONResponse:
+async def refresh(
+    body: dict[str, Any], refresh_token: Annotated[str | None, Cookie(alias="refresh_token")] = None
+) -> JSONResponse:
     """
     Refresh an access token based on a refresh token
     \f
