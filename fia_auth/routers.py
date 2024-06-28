@@ -65,7 +65,7 @@ async def login(credentials: UserCredentials) -> JSONResponse:
             secure=True,
             httponly=True,
             samesite="lax",
-            path="/api/jwt/refresh",
+            path="/auth/api/jwt/refresh",
         )  # 12 hours
         return response
     except UOWSError as exc:
