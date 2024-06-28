@@ -75,7 +75,6 @@ class AccessToken(Token):
             self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=float(ACCESS_TOKEN_LIFETIME_MINUTES))
             self._encode()
         elif jwt_token and not payload:
-            logger.warning("loading jwt")
             try:
                 self._payload = jwt.decode(
                     jwt_token,
