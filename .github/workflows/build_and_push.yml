@@ -30,7 +30,7 @@ jobs:
 
       - name: Build and push fia-auth Docker image
         id: docker_build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           file: ./container/fia-auth.Dockerfile
           push: true
@@ -43,7 +43,7 @@ jobs:
           token: ${{ secrets.GITOPS_STAGING_EDIT_TOKEN }}
 
       - name: Edit the YAML fia-auth file for staging
-        uses: mikefarah/yq@v4.44.1
+        uses: mikefarah/yq@v4.44.2
         with:
           cmd: yq e -i '.spec.template.spec.containers[] |= select(.name == "fia-auth").image = "ghcr.io/fiaisis/fia-auth@${{ steps.docker_build.outputs.digest }}"' './components/fia-auth/envs/staging/fia-auth.yml'
 
