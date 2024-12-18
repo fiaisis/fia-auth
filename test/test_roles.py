@@ -21,7 +21,7 @@ def test_is_instrument_scientist_true(requests):
     requests.get.assert_called_once_with(
         url=f"{uows_url}/v1/role/{user_number}",
         headers={"Authorization": f"Api-key {uows_api_key}", "accept": "application/json"},
-        timeout=1
+        timeout=1,
     )
     assert result
     os.environ.pop("UOWS_URL")
@@ -43,7 +43,7 @@ def test_is_instrument_scientist_false(requests):
     requests.get.assert_called_once_with(
         url=f"{uows_url}/v1/role/{user_number}",
         headers={"Authorization": f"Api-key {uows_api_key}", "accept": "application/json"},
-        timeout=1
+        timeout=1,
     )
     assert not result
     os.environ.pop("UOWS_URL")
@@ -63,7 +63,7 @@ def test_is_instrument_scientist_false_when_forbidden(requests):
     requests.get.assert_called_once_with(
         url=f"{uows_url}/v1/role/{user_number}",
         headers={"Authorization": f"Api-key {uows_api_key}", "accept": "application/json"},
-        timeout=1
+        timeout=1,
     )
     assert not result
     os.environ.pop("UOWS_URL")
