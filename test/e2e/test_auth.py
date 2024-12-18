@@ -11,16 +11,19 @@ from fia_auth.tokens import generate_access_token, generate_refresh_token
 client = TestClient(app)
 
 
+@patch("fia_auth.model.is_instrument_scientist")
 @patch("fia_auth.auth.requests")
-def test_successful_login(mock_requests):
-    mock_response = Mock()
-    mock_requests.post.return_value = mock_response
+def test_successful_login(mock_auth_requests, is_instrument_scientist):
+    mock_auth_response = Mock()
+    mock_auth_response.status_code = HTTPStatus.CREATED
+    mock_auth_response.json.return_value = {"userId": 1234}
+    mock_auth_requests.post.return_value = mock_auth_response
+    is_instrument_scientist.return_value = False
 
-    mock_response.status_code = HTTPStatus.CREATED
-    mock_response.json.return_value = {"userId": 1234}
     response = client.post("/api/jwt/authenticate", json={"username": "foo", "password": "foo"})
     assert response.json()["token"].startswith("ey")
     assert response.cookies["refresh_token"].startswith("ey")
+    is_instrument_scientist.assert_called_once_with(1234)
 
 
 @patch("fia_auth.auth.requests.post")
@@ -45,12 +48,15 @@ def test_unsuccessful_login_uows_failure(mock_post):
     assert response.status_code == HTTPStatus.FORBIDDEN
 
 
-def test_verify_success():
+@patch("fia_auth.model.is_instrument_scientist")
+def test_verify_success(is_instrument_scientist):
+    is_instrument_scientist.return_value = False
     user = User(123)
     access_token = generate_access_token(user)
     response = client.post("/api/jwt/checkToken", json={"token": access_token.jwt})
 
     assert response.status_code == HTTPStatus.OK
+    is_instrument_scientist.assert_called_once_with(123)
 
 
 def test_verify_fail_badly_formed_token():
@@ -63,7 +69,9 @@ def test_verify_fail_bad_signature():
     assert response.status_code == HTTPStatus.FORBIDDEN
 
 
-def test_token_refresh_success():
+@patch("fia_auth.model.is_instrument_scientist")
+def test_token_refresh_success(is_instrument_scientist):
+    is_instrument_scientist.return_value = False
     user = User(123)
     access_token = generate_access_token(user)
     refresh_token = generate_refresh_token()
@@ -71,9 +79,12 @@ def test_token_refresh_success():
         "/api/jwt/refresh", json={"token": access_token.jwt}, cookies={"refresh_token": refresh_token.jwt}
     )
     assert response.json()["token"].startswith("ey")
+    is_instrument_scientist.assert_called_once_with(123)
 
 
-def test_token_refresh_no_refresh_token_given():
+@patch("fia_auth.model.is_instrument_scientist")
+def test_token_refresh_no_refresh_token_given(is_instrument_scientist):
+    is_instrument_scientist.return_value = False
     user = User(123)
     access_token = generate_access_token(user)
     response = client.post(
@@ -82,9 +93,12 @@ def test_token_refresh_no_refresh_token_given():
     )
 
     assert response.status_code == HTTPStatus.FORBIDDEN
+    is_instrument_scientist.assert_called_once_with(123)
 
 
-def test_token_refresh_expired_refresh_token():
+@patch("fia_auth.model.is_instrument_scientist")
+def test_token_refresh_expired_refresh_token(is_instrument_scientist):
+    is_instrument_scientist.return_value = False
     user = User(123)
     access_token = generate_access_token(user)
     refresh_token = (
@@ -95,3 +109,4 @@ def test_token_refresh_expired_refresh_token():
     )
 
     assert response.status_code == HTTPStatus.FORBIDDEN
+    is_instrument_scientist.assert_called_once_with(123)
