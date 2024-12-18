@@ -11,10 +11,10 @@ from fia_auth.tokens import generate_access_token, generate_refresh_token
 client = TestClient(app)
 
 
-@patch("fia_auth.auth.requests.post")
-def test_successful_login(mock_post):
+@patch("fia_auth.auth.requests")
+def test_successful_login(mock_requests):
     mock_response = Mock()
-    mock_post.return_value = mock_response
+    mock_requests.post.return_value = mock_response
 
     mock_response.status_code = HTTPStatus.CREATED
     mock_response.json.return_value = {"userId": 1234}
