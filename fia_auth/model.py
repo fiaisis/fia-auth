@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from pydantic import BaseModel
 
 from fia_auth.db import is_staff_user
+from fia_auth.roles import is_instrument_scientist
 
 
 class UserCredentials(BaseModel):
@@ -42,6 +43,6 @@ class User:
         Determine and determine the role of the user based on their usernumber
         :return:
         """
-        if is_staff_user(self.user_number):
+        if is_staff_user(self.user_number) or is_instrument_scientist(self.user_number):
             return Role.STAFF
         return Role.USER
