@@ -5,6 +5,11 @@ import requests
 
 
 def is_instrument_scientist(user_number: int) -> bool:
+    """
+    Checks if the user number is an instrument scientist according to UOWs (User Office Web Service)
+    :param user_number: The user number assigned to each user from UOWs
+    :return: True if the user number is an instrument scientist, false if not or failed connection.
+    """
     uows_url = os.environ.get("UOWS_URL", "https://devapi.facilities.rl.ac.uk/users-service")
     uows_api_key = os.environ.get("UOWS_API_KEY", "")
     response = requests.get(
