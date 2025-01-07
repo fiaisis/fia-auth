@@ -1,6 +1,4 @@
-"""
-FIA Auth custom exceptions
-"""
+"""FIA Auth custom exceptions"""
 
 
 class UOWSError(Exception):
@@ -16,7 +14,7 @@ class AuthenticationError(Exception):
 
 
 class BadCredentialsError(AuthenticationError):
-    """ "Bad Credentials Provided"""
+    """Bad Credentials Provided"""
 
 
 class BadJWTError(AuthenticationError):

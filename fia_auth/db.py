@@ -1,6 +1,4 @@
-"""
-DB Access moculde
-"""
+"""DB Access moculde"""
 
 import logging
 import os
@@ -13,17 +11,13 @@ logger = logging.getLogger(__name__)
 
 
 class Base(DeclarativeBase):
-    """
-    SQLAlchemy Base Model
-    """
+    """SQLAlchemy Base Model"""
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
 
 class Staff(Base):
-    """
-    Staff user
-    """
+    """Staff user"""
 
     __tablename__ = "staff"
     user_number: Mapped[int] = mapped_column(Integer())
@@ -47,7 +41,6 @@ def is_staff_user(user_number: int) -> bool:
     :param user_number: The user number to check
     :return: boolean indicating if it is a staff
     """
-
     try:
         with SESSION() as session:
             session.execute(select(Staff.user_number).where(Staff.user_number == user_number)).one()

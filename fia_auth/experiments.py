@@ -1,6 +1,4 @@
-"""
-Module for dealing with experiment user data via proposal allocations API
-"""
+"""Module for dealing with experiment user data via proposal allocations API"""
 
 import logging
 import os

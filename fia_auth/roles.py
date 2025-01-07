@@ -5,8 +5,8 @@ import requests
 
 
 def is_instrument_scientist(user_number: int) -> bool:
-    """Check if the user number is an instrument scientist according to UOWs (User Office Web Service).
-
+    """
+    Check if the user number is an instrument scientist according to UOWs (User Office Web Service).
     :param user_number: The user number assigned to each user from UOWs
     :return: True if the user number is an instrument scientist, false if not or failed connection.
     """

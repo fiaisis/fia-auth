@@ -65,11 +65,14 @@ class Token(ABC):
 
 
 class AccessToken(Token):
-    """
-    Access Token is a short-lived (5 minute) token that stores user information
-    """
+    """Access Token is a short-lived (5 minute) token that stores user information"""
 
     def __init__(self, jwt_token: str | None = None, payload: dict[str, Any] | None = None) -> None:
+        """
+        Create AccessToken, requires jwt_token XOR a payload
+        :param jwt_token: JWT to populate the payload if JWT provided and no payload.
+        :param payload: Payload to encode if no JWT provided
+        """
         if payload and not jwt_token:
             self._payload = payload
             self._payload["exp"] = datetime.now(UTC) + timedelta(minutes=float(ACCESS_TOKEN_LIFETIME_MINUTES))
@@ -99,11 +102,14 @@ class AccessToken(Token):
 
 
 class RefreshToken(Token):
-    """
-    Refresh token is a long-lived (12 hour) token that is required to refresh an access token
-    """
+    """Refresh token is a long-lived (12 hour) token that is required to refresh an access token"""
 
     def __init__(self, jwt_token: str | None = None) -> None:
+        """
+        Create the RefreshToken
+        :param jwt_token: Optionally provide the jwt_token to create the payload else construct payload using default
+        method.
+        """
         if jwt_token is None:
             self._payload = {"exp": datetime.now(UTC) + timedelta(hours=12)}
             self._encode()
