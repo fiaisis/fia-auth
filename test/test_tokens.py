@@ -1,4 +1,4 @@
-# ruff: noqa: D103
+# ruff: noqa: D100, D103
 from datetime import UTC, datetime, timedelta
 from unittest.mock import Mock, patch
 
