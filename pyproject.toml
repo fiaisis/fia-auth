@@ -79,6 +79,7 @@ ignore = [
     "S101",    # flake8-bandit - Use of assert (all over pytest tests)
     "ISC001",  # Conflicts with the formatter
     "COM812",  # Conflicts with the formatter
+    "D211",    # Conflicts with it's own rules: D203
     "D205", "D212", "D400", "D415" # Overzealous docstring checker
 ]
 

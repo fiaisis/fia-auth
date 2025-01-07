@@ -1,6 +1,4 @@
-"""
-Module containing token classes, creation, and loading functions
-"""
+"""Module containing token classes, creation, and loading functions"""
 
 from __future__ import annotations
 
@@ -25,15 +23,13 @@ logger = logging.getLogger(__name__)
 
 
 class Token(ABC):
-    """
-    Abstract token class defines verify method
-    """
+    """Abstract token class defines verify method"""
 
     jwt: str
 
     def verify(self) -> None:
         """
-        Verifies the token, ensuring that it has a valid format, signature, and has not expired. Will raise a
+        Verify the token, ensuring that it has a valid format, signature, and has not expired. Will raise a
         BadJWTError if verification fails
         :return: None
         """

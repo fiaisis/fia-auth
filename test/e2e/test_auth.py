@@ -1,3 +1,5 @@
+# ruff: noqa: D103
+
 from http import HTTPStatus
 from unittest.mock import Mock, patch
 

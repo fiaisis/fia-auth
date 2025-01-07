@@ -1,3 +1,4 @@
+"""Functions for handling role checks"""
 import os
 from http import HTTPStatus
 

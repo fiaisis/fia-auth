@@ -1,3 +1,4 @@
+# ruff: noqa: D103
 import os
 import random
 from http import HTTPStatus
