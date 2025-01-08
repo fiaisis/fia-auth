@@ -11,12 +11,14 @@ logger = logging.getLogger(__name__)
 
 
 class Base(DeclarativeBase):
+
     """SQLAlchemy Base Model"""
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
 
 class Staff(Base):
+
     """Staff user"""
 
     __tablename__ = "staff"

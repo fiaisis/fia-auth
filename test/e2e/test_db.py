@@ -4,7 +4,7 @@ from fia_auth.db import SESSION, Staff, is_staff_user
 
 
 def test_is_staff_staff_user_exists():
-    """test is staff returns true when staff exists"""
+    """Test is staff returns true when staff exists"""
     with SESSION() as session:
         staff = Staff(user_number=54321)
         session.add(staff)

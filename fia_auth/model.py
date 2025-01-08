@@ -10,6 +10,7 @@ from fia_auth.roles import is_instrument_scientist
 
 
 class UserCredentials(BaseModel):
+
     """Pydantic model for user credentials. Allows FastAPI to validate the object recieved in the login endpoint"""
 
     username: str
@@ -17,6 +18,7 @@ class UserCredentials(BaseModel):
 
 
 class Role(enum.Enum):
+
     """Role Enum to differentiate between user and staff. It is assumed staff will see all data"""
 
     STAFF = "staff"
@@ -25,6 +27,7 @@ class Role(enum.Enum):
 
 @dataclass
 class User:
+
     """Internal User Model for packing JWTs"""
 
     user_number: int
