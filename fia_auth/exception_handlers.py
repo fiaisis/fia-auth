@@ -1,3 +1,5 @@
+"""Error handlers"""
+
 import logging
 from http import HTTPStatus
 

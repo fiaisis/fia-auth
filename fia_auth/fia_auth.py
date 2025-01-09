@@ -1,6 +1,4 @@
-"""
-Module containing the fast api app. Uvicorn loads this to start the api
-"""
+"""Module containing the fast api app. Uvicorn loads this to start the api"""
 
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware

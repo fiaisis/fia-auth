@@ -1,6 +1,4 @@
-"""
-Module containing code to authenticate with the UOWS
-"""
+"""Module containing code to authenticate with the UOWS"""
 
 import logging
 import os

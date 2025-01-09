@@ -1,6 +1,5 @@
-"""
-e2e test cases
-"""
+"""e2e test cases"""
+# ruff: noqa: D103
 
 from http import HTTPStatus
 from unittest.mock import patch

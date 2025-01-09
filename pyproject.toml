@@ -11,7 +11,8 @@ dependencies = [
     "psycopg2==2.9.9",
     "PyJWT==2.8.0",
     "SQLAlchemy==2.0.30",
-    "uvicorn==0.30.1"
+    "uvicorn==0.30.1",
+    "requests==2.32.3"
 ]
 
 [project.urls]
@@ -45,6 +46,7 @@ select = [
     "F",     # flake8 - Basic initial rules
     "E",     # pycodestyle (Error) - pep8 compliance
     "W",     # pycodestyle (Warning) - pep8 compliance
+    "D",     # pydocstyle - Enforce docstrings present
     "C90",   # mccabe - flags extremely complex functions
     "I",     # isort - Sort imports and flag missing imports
     "N",     # pep8-naming - Ensures pep8 compliance for naming
@@ -77,6 +79,8 @@ ignore = [
     "S101",    # flake8-bandit - Use of assert (all over pytest tests)
     "ISC001",  # Conflicts with the formatter
     "COM812",  # Conflicts with the formatter
+    "D211",    # Conflicts with it's own rules: D203
+    "D104", "D205", "D212", "D400", "D415" # Overzealous docstring checker
 ]
 
 [tool.ruff.lint.pylint]
