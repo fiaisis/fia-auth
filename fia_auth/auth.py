@@ -22,7 +22,7 @@ def authenticate(credentials: UserCredentials) -> User:
     data = {"username": credentials.username, "password": credentials.password}
     logger.info(f"Authentication user: {credentials.username[0:3]}*****")  # Partial reveal to help logging
     response = requests.post(
-        f"{UOWS_URL}/v0/sessions",
+        f"{UOWS_URL}/v1/sessions",
         json=data,
         headers={"Content-Type": "application/json"},
         timeout=30,
