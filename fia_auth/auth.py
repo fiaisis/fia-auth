@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 UOWS_URL = os.environ.get("UOWS_URL", "https://devapi.facilities.rl.ac.uk/users-service")
 UOWS_API_KEY = os.environ.get("UOWS_API_KEY", "")
 
+
 def authenticate(credentials: UserCredentials) -> User:
     """
     Authenticate the user based on the given credentials
