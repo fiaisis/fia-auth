@@ -135,7 +135,7 @@ def generate_access_token(user: User) -> AccessToken:
     :param user: The user
     :return: The generated Access Token
     """
-    payload = {"usernumber": user.user_number, "role": user.role.value, "username": "foo"}
+    payload = {"usernumber": user.user_number, "role": user.role.value, "username": user.users_name}
     return AccessToken(payload=payload)
 
 

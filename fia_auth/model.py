@@ -31,6 +31,7 @@ class User:
     """Internal User Model for packing JWTs"""
 
     user_number: int
+    users_name: str
 
     @property
     def role(self) -> Role:
