@@ -2,7 +2,7 @@
 import os
 from http import HTTPStatus
 from unittest import mock
-from unittest.mock import Mock, patch, call
+from unittest.mock import Mock, call, patch
 
 import pytest
 
@@ -25,18 +25,24 @@ def test_authenticate_success(mock_post):
     assert user.user_number == "12345"
     assert user.users_name == "Mr Cool"
 
-    assert call(
-        "https://devapi.facilities.rl.ac.uk/users-service/v1/sessions",
-        json={"username": "valid_user", "password": "valid_password"},
-        headers={"Content-Type": "application/json"},
-        timeout=30,
-    ) in mock_post.mock_calls
-    assert call(
-        "https://devapi.facilities.rl.ac.uk/users-service/v1/basic-person-details?userNumbers=12345",
-        json={"username": "valid_user", "password": "valid_password"},
-        headers={"Authorization": f"Api-key {uows_api_key}", "Content-Type": "application/json"},
-        timeout=30,
-    ) in mock_post.mock_calls
+    assert (
+        call(
+            "https://devapi.facilities.rl.ac.uk/users-service/v1/sessions",
+            json={"username": "valid_user", "password": "valid_password"},
+            headers={"Content-Type": "application/json"},
+            timeout=30,
+        )
+        in mock_post.mock_calls
+    )
+    assert (
+        call(
+            "https://devapi.facilities.rl.ac.uk/users-service/v1/basic-person-details?userNumbers=12345",
+            json={"username": "valid_user", "password": "valid_password"},
+            headers={"Authorization": f"Api-key {uows_api_key}", "Content-Type": "application/json"},
+            timeout=30,
+        )
+        in mock_post.mock_calls
+    )
     assert mock_post.call_count == 2  # noqa: PLR2004
 
 

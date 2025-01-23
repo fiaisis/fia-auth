@@ -1,6 +1,6 @@
 """Model Tests"""
 
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 from fia_auth.model import Role, User
 
