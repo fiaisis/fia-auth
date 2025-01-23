@@ -11,7 +11,7 @@ from fia_auth.model import User, UserCredentials
 
 logger = logging.getLogger(__name__)
 UOWS_URL = os.environ.get("UOWS_URL", "https://devapi.facilities.rl.ac.uk/users-service")
-UOWS_API_KEY = os.environ.get("UOWS_API_KEY", "")
+
 
 
 def authenticate(credentials: UserCredentials) -> User:
@@ -31,10 +31,11 @@ def authenticate(credentials: UserCredentials) -> User:
     if response.status_code == HTTPStatus.CREATED:
         logger.info("Session created with UOWS")
         user_id = response.json()["userId"]
+        uows_api_key = os.environ.get("UOWS_API_KEY", "")
         details_response = requests.post(
             f"{UOWS_URL}/v1/basic-person-details?userNumbers={user_id}",
             json=data,
-            headers={"Authorization": f"Api-key {UOWS_API_KEY}", "Content-Type": "application/json"},
+            headers={"Authorization": f"Api-key {uows_api_key}", "Content-Type": "application/json"},
             timeout=30,
         )
         return User(user_number=user_id, users_name=details_response.json()["displayName"])
