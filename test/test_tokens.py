@@ -172,6 +172,7 @@ def test_refresh_token_with_invalid_jwt(mock_decode):
 def test_generate_access_token(mock_datetime):
     user = Mock()
     user.user_number = 12345
+    user.username = "Mr Cool"
     user.role = Role.USER
     user.role = Role.USER
     fixed_time = datetime(2000, 12, 12, 12, 0, tzinfo=UTC)
@@ -181,7 +182,7 @@ def test_generate_access_token(mock_datetime):
     expected_payload = {
         "usernumber": 12345,
         "role": "user",
-        "username": "foo",
+        "username": "Mr Cool",
         "exp": fixed_time + timedelta(minutes=10),
     }
 

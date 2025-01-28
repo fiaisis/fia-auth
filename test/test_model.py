@@ -1,6 +1,6 @@
 """Model Tests"""
 
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from fia_auth.model import Role, User
 
@@ -12,7 +12,7 @@ def test_role_is_user(mock_is_staff_user, mock_is_instrument_scientist):
     mock_is_staff_user.return_value = False
     mock_is_instrument_scientist.return_value = False
 
-    user = User(user_number=1234)
+    user = User(user_number=1234, username=MagicMock())
     assert user.role == Role.USER
 
 
@@ -23,7 +23,7 @@ def test_role_is_staff_in_db(mock_is_staff_user, mock_is_instrument_scientist):
     mock_is_staff_user.return_value = True
     mock_is_instrument_scientist.return_value = False
 
-    user = User(user_number=1234)
+    user = User(user_number=1234, username=MagicMock())
     assert user.role == Role.STAFF
 
 
@@ -34,7 +34,7 @@ def test_role_is_staff_in_db_and_inst_scientist(mock_is_staff_user, mock_is_inst
     mock_is_staff_user.return_value = True
     mock_is_instrument_scientist.return_value = True
 
-    user = User(user_number=1234)
+    user = User(user_number=1234, username=MagicMock())
     assert user.role == Role.STAFF
 
 
@@ -45,5 +45,5 @@ def test_role_is_staff_inst_scientist(mock_is_staff_user, mock_is_instrument_sci
     mock_is_staff_user.return_value = False
     mock_is_instrument_scientist.return_value = True
 
-    user = User(user_number=1234)
+    user = User(user_number=1234, username=MagicMock())
     assert user.role == Role.STAFF

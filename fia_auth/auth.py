@@ -29,7 +29,15 @@ def authenticate(credentials: UserCredentials) -> User:
     )
     if response.status_code == HTTPStatus.CREATED:
         logger.info("Session created with UOWS")
-        return User(user_number=response.json()["userId"])
+        user_id = response.json()["userId"]
+        uows_api_key = os.environ.get("UOWS_API_KEY", "")
+        details_response = requests.post(
+            f"{UOWS_URL}/v1/basic-person-details?userNumbers={user_id}",
+            json=data,
+            headers={"Authorization": f"Api-key {uows_api_key}", "Content-Type": "application/json"},
+            timeout=30,
+        )
+        return User(user_number=user_id, username=details_response.json()["displayName"])
     if response.status_code == HTTPStatus.UNAUTHORIZED:
         logger.info("Bad credentials given to UOWS")
         raise BadCredentialsError("Invalid user credentials provided to authenticate with the user office web service.")
