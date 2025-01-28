@@ -23,7 +23,7 @@ def test_authenticate_success(mock_post):
     user = authenticate(credentials)
 
     assert user.user_number == "12345"
-    assert user.users_name == "Mr Cool"
+    assert user.username == "Mr Cool"
 
     assert (
         call(
