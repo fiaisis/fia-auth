@@ -11,12 +11,14 @@ from fia_auth.exceptions import BadCredentialsError, UOWSError
 from fia_auth.model import UserCredentials
 
 
+@patch("requests.get")
 @patch("requests.post")
-def test_authenticate_success(mock_post):
+def test_authenticate_success(mock_post, mock_get):
     uows_api_key = str(mock.MagicMock())
     os.environ["UOWS_API_KEY"] = uows_api_key
     mock_response = Mock(status_code=HTTPStatus.CREATED, json=lambda: {"userId": "12345", "displayName": "Mr Cool"})
     mock_post.return_value = mock_response
+    mock_get.return_value = mock_response
 
     credentials = UserCredentials(username="valid_user", password="valid_password")  # noqa: S106
 
