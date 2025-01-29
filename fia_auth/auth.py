@@ -36,8 +36,11 @@ def authenticate(credentials: UserCredentials) -> User:
             headers={"Authorization": f"Api-key {uows_api_key}", "Content-Type": "application/json"},
             timeout=30,
         )
-        if (details_response.status_code != HTTPStatus.OK or len(details_response.json()) < 1
-                or "displayName" not in details_response.json()[0]):
+        if (
+            details_response.status_code != HTTPStatus.OK
+            or len(details_response.json()) < 1
+            or "displayName" not in details_response.json()[0]
+        ):
             logger.warning("Unexpected error occured when authentication with the UOWS: %s", response.text)
             raise UOWSError("An unexpected error occurred when authenticating with the user office web service")
         return User(user_number=user_id, username=details_response.json()[0]["displayName"])
