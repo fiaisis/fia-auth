@@ -16,10 +16,14 @@ client = TestClient(app)
 @patch("fia_auth.model.is_instrument_scientist")
 @patch("fia_auth.auth.requests")
 def test_successful_login(mock_auth_requests, is_instrument_scientist):
-    mock_auth_response = Mock()
-    mock_auth_response.status_code = HTTPStatus.CREATED
-    mock_auth_response.json.return_value = {"userId": 1234, "displayName": "Mr Cool"}
-    mock_auth_requests.post.return_value = mock_auth_response
+    mock_post_auth_response = Mock()
+    mock_post_auth_response.status_code = HTTPStatus.CREATED
+    mock_post_auth_response.json.return_value = {"userId": 1234, "displayName": "Mr Cool"}
+    mock_get_auth_response = Mock()
+    mock_get_auth_response.status_code = HTTPStatus.OK
+    mock_get_auth_response.json.return_value = [{"displayName": "Mr Cool"}]
+    mock_auth_requests.post.return_value = mock_post_auth_response
+    mock_auth_requests.get.return_value = mock_get_auth_response
     is_instrument_scientist.return_value = False
 
     response = client.post("/api/jwt/authenticate", json={"username": "foo", "password": "foo"})
