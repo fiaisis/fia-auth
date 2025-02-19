@@ -17,7 +17,7 @@ def is_instrument_scientist(user_number: int) -> bool:
     response = requests.get(
         url=f"{uows_url}/v1/role/{user_number}",
         headers={"Authorization": f"Api-key {uows_api_key}", "accept": "application/json"},
-        timeout=1,
+        timeout=5,
     )
     if response.status_code != HTTPStatus.OK:
         from fia_auth.auth import logger
