@@ -5,6 +5,8 @@ from http import HTTPStatus
 
 import requests
 
+from fia_auth.auth import logger
+
 
 def is_instrument_scientist(user_number: int) -> bool:
     """
@@ -20,8 +22,6 @@ def is_instrument_scientist(user_number: int) -> bool:
         timeout=5,
     )
     if response.status_code != HTTPStatus.OK:
-        from fia_auth.auth import logger
-
         logger.info("User number %s is not an instrument scientist or UOWS API is down", user_number)
         return False
     roles = response.json()

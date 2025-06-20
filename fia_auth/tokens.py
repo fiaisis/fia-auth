@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 
 PRIVATE_KEY = os.environ.get("JWT_SECRET", "shh")
-ACCESS_TOKEN_LIFETIME_MINUTES = os.environ.get("ACCESS_TOKEN_LIFETIME_MINUTES", 10)
+ACCESS_TOKEN_LIFETIME_MINUTES = int(os.environ.get("ACCESS_TOKEN_LIFETIME_MINUTES", str(10)))
 
 logger = logging.getLogger(__name__)
 
