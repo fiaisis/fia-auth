@@ -1,11 +1,12 @@
 """Functions for handling role checks"""
 
+import logging
 import os
 from http import HTTPStatus
 
 import requests
 
-from fia_auth.auth import logger
+logger = logging.getLogger(__name__)
 
 
 def is_instrument_scientist(user_number: int) -> bool:
