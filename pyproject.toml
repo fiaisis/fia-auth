@@ -30,7 +30,7 @@ formatting = [
 test = [
     "pytest==8.4.1",
     "pytest-cov==6.2.1",
-    "pytest-random-order==1.1.1",
+    "pytest-random-order==1.2.0",
 ]
 
 
