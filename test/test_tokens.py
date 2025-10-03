@@ -125,7 +125,7 @@ def test_access_token_refresh(mock_decode, mock_encode):
 
     token.refresh()
 
-    args, kwargs = mock_encode.call_args
+    args, _ = mock_encode.call_args
     assert args[0]["exp"] > datetime.now(UTC)  # checks if the expiration time is extended
 
 
