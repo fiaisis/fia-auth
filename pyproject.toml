@@ -5,9 +5,9 @@ readme = "README.md"
 version = "0.0.1"
 requires-python = ">= 3.11"
 dependencies = [
-    "cryptography==46.0.1",
+    "cryptography==46.0.2",
     "gql[all]==4.0.0",
-    "fastapi[all]==0.117.1",
+    "fastapi[all]==0.118.0",
     "psycopg2==2.9.10",
     "PyJWT==2.10.1",
     "SQLAlchemy==2.0.43",
@@ -20,7 +20,7 @@ dependencies = [
 
 [project.optional-dependencies]
 formatting = [
-    "ruff==0.13.2",
+    "ruff==0.13.3",
     "mypy==1.18.2",
     "types-requests==2.32.4.20250913",
     "fia-auth[test]",
