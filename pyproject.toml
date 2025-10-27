@@ -7,7 +7,7 @@ requires-python = ">= 3.11"
 dependencies = [
     "cryptography==46.0.3",
     "gql[all]==4.0.0",
-    "fastapi[all]==0.119.0",
+    "fastapi[all]==0.120.0",
     "psycopg2==2.9.11",
     "PyJWT==2.10.1",
     "SQLAlchemy==2.0.44",
@@ -20,7 +20,7 @@ dependencies = [
 
 [project.optional-dependencies]
 formatting = [
-    "ruff==0.14.1",
+    "ruff==0.14.2",
     "mypy==1.18.2",
     "types-requests==2.32.4.20250913",
     "fia-auth[test]",
