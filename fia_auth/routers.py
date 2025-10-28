@@ -42,7 +42,7 @@ async def get_experiments(
     return await get_experiments_for_user_number(user_number)
 
 
-@ROUTER.post("/api/jwt/authenticate", tags=["auth"])
+@ROUTER.post("/auth/login", tags=["auth"])
 async def login(credentials: UserCredentials) -> JSONResponse:
     r"""
     Login with facilities account
