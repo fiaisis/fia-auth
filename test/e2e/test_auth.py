@@ -26,8 +26,8 @@ def test_successful_login(mock_auth_requests, is_instrument_scientist):
     mock_auth_requests.get.return_value = mock_get_auth_response
     is_instrument_scientist.return_value = False
 
-    response = client.post("/api/jwt/authenticate", json={"username": "foo", "password": "foo"})
-    assert response.json()["token"].startswith("ey")
+    response = client.post("/login", json={"username": "foo", "password": "foo"})
+    assert response.json().startswith("ey")
     assert response.cookies["refresh_token"].startswith("ey")
     is_instrument_scientist.assert_called_once_with(1234)
 
@@ -39,7 +39,7 @@ def test_unsuccessful_login(mock_post):
 
     mock_response.status_code = HTTPStatus.UNAUTHORIZED
 
-    response = client.post("/api/jwt/authenticate", json={"username": "foo", "password": "foo"})
+    response = client.post("/login", json={"username": "foo", "password": "foo"})
     assert response.status_code == HTTPStatus.FORBIDDEN
 
 
@@ -50,7 +50,7 @@ def test_unsuccessful_login_uows_failure(mock_post):
 
     mock_response.status_code = HTTPStatus.UNAUTHORIZED.INTERNAL_SERVER_ERROR
 
-    response = client.post("/api/jwt/authenticate", json={"username": "foo", "password": "foo"})
+    response = client.post("/login", json={"username": "foo", "password": "foo"})
     assert response.status_code == HTTPStatus.FORBIDDEN
 
 
@@ -59,19 +59,19 @@ def test_verify_success(is_instrument_scientist):
     is_instrument_scientist.return_value = False
     user = User(123, str(Mock()))
     access_token = generate_access_token(user)
-    response = client.post("/api/jwt/checkToken", json={"token": access_token.jwt})
+    response = client.post("/verify", json={"token": access_token.jwt})
 
     assert response.status_code == HTTPStatus.OK
     is_instrument_scientist.assert_called_once_with(123)
 
 
 def test_verify_fail_badly_formed_token():
-    response = client.post("/api/jwt/checkToken", json={"token": "foo"})
+    response = client.post("/verify", json={"token": "foo"})
     assert response.status_code == HTTPStatus.FORBIDDEN
 
 
 def test_verify_fail_bad_signature():
-    response = client.post("/api/jwt/checkToken", json={"token": jwt.encode({"foo": "bar"}, key="foo")})
+    response = client.post("/verify", json={"token": jwt.encode({"foo": "bar"}, key="foo")})
     assert response.status_code == HTTPStatus.FORBIDDEN
 
 
@@ -81,10 +81,8 @@ def test_token_refresh_success(is_instrument_scientist):
     user = User(123, str(Mock()))
     access_token = generate_access_token(user)
     refresh_token = generate_refresh_token()
-    response = client.post(
-        "/api/jwt/refresh", json={"token": access_token.jwt}, cookies={"refresh_token": refresh_token.jwt}
-    )
-    assert response.json()["token"].startswith("ey")
+    response = client.post("/refresh", json={"token": access_token.jwt}, cookies={"refresh_token": refresh_token.jwt})
+    assert response.json().startswith("ey")
     is_instrument_scientist.assert_called_once_with(123)
 
 
@@ -94,7 +92,7 @@ def test_token_refresh_no_refresh_token_given(is_instrument_scientist):
     user = User(123, str(Mock()))
     access_token = generate_access_token(user)
     response = client.post(
-        "/api/jwt/refresh",
+        "/refresh",
         json={"token": access_token.jwt},
     )
 
@@ -110,9 +108,7 @@ def test_token_refresh_expired_refresh_token(is_instrument_scientist):
     refresh_token = (
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTgwMjEyNDB9.iHITGf2RyX_49pY7Xy8xdutYE4Pc6k9mfKWQjxCKgOk"  # noqa: S105
     )
-    response = client.post(
-        "/api/jwt/refresh", json={"token": access_token.jwt}, cookies={"refresh_token": refresh_token}
-    )
+    response = client.post("/refresh", json={"token": access_token.jwt}, cookies={"refresh_token": refresh_token})
 
     assert response.status_code == HTTPStatus.FORBIDDEN
     is_instrument_scientist.assert_called_once_with(123)
