@@ -21,7 +21,6 @@ ROUTER = APIRouter()
 security = HTTPBearer(scheme_name="APIKey", description="API Key for internal routes")
 
 API_KEY = os.environ.get("FIA_AUTH_API_KEY", "shh")
-REFRESH_COOKIE_PATH = os.environ.get("FIA_AUTH_REFRESH_COOKIE_PATH", "/")
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +63,6 @@ async def login(credentials: UserCredentials) -> JSONResponse:
             secure=True,
             httponly=True,
             samesite="lax",
-            path=REFRESH_COOKIE_PATH,
         )  # 12 hours
         return response
     except UOWSError as exc:
