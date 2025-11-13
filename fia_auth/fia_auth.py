@@ -1,4 +1,5 @@
 """Module containing the fast api app. Uvicorn loads this to start the api"""
+
 import logging
 import sys
 
@@ -19,7 +20,6 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 ALLOWED_ORIGINS = ["*"]
-
 
 
 app = FastAPI()
