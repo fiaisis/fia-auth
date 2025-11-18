@@ -43,7 +43,7 @@ jobs:
           token: ${{ secrets.GITOPS_STAGING_EDIT_TOKEN }}
 
       - name: Edit the YAML fia-auth file for staging
-        uses: mikefarah/yq@v4.48.1
+        uses: mikefarah/yq@v4.48.2
         with:
           cmd: yq e -i '.spec.template.spec.containers[] |= select(.name == "fia-auth").image = "ghcr.io/fiaisis/fia-auth@${{ steps.docker_build.outputs.digest }}"' './components/fia-auth/envs/staging/fia-auth.yml'
 
