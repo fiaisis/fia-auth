@@ -61,7 +61,6 @@ class Token(ABC):
         self.jwt = jwt.encode(self._payload, bytes_key, algorithm="HS256")
 
 
-
 class AccessToken(Token):
 
     """Access Token is a short-lived (5 minute) token that stores user information"""
