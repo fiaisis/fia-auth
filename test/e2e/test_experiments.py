@@ -26,9 +26,9 @@ ALLOCATIONS_RESPONSE = {
 }
 
 
-def test_get_experiments_with_missing_api_key_returns_403():
+def test_get_experiments_with_missing_api_key_returns_401():
     response = client.get("/experiments?user_number=123")
-    assert response.status_code == HTTPStatus.FORBIDDEN
+    assert response.status_code == HTTPStatus.UNAUTHORIZED
 
 
 def test_get_experiments_with_bad_api_key_returns_403():
