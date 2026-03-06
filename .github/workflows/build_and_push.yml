@@ -19,10 +19,10 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -30,20 +30,20 @@ jobs:
 
       - name: Build and push fia-auth Docker image
         id: docker_build
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           file: ./container/fia-auth.Dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/fia-auth:${{ github.sha }}
 
       - name: Checkout the Gitops repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: fiaisis/gitops
           token: ${{ secrets.GITOPS_STAGING_EDIT_TOKEN }}
 
       - name: Edit the YAML fia-auth file for staging
-        uses: mikefarah/yq@v4.48.1
+        uses: mikefarah/yq@v4.52.4
         with:
           cmd: yq e -i '.spec.template.spec.containers[] |= select(.name == "fia-auth").image = "ghcr.io/fiaisis/fia-auth@${{ steps.docker_build.outputs.digest }}"' './components/fia-auth/envs/staging/fia-auth.yml'
 
