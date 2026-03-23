@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import os
+from http import HTTPStatus
 from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, Cookie, Depends, HTTPException
@@ -11,6 +12,7 @@ from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from fia_auth.auth import authenticate
+from fia_auth.db import ensure_db_connection
 from fia_auth.exceptions import UOWSError
 from fia_auth.experiments import get_experiments_for_user_number
 from fia_auth.model import UserCredentials  # noqa: TC001   # Required for fastapi
@@ -23,6 +25,23 @@ security = HTTPBearer(scheme_name="APIKey", description="API Key for internal ro
 API_KEY = os.environ.get("FIA_AUTH_API_KEY", "shh")
 
 logger = logging.getLogger(__name__)
+
+
+@ROUTER.get("/healthz", tags=["health"])
+async def health() -> Literal["ok"]:
+    """Health check endpoint used by the liveness probe."""
+    return "ok"
+
+
+@ROUTER.get("/ready", tags=["health"])
+async def ready() -> Literal["ok"]:
+    """Readiness probe endpoint that verifies database connectivity."""
+    try:
+        ensure_db_connection()
+        return "ok"
+    except Exception as exc:  # pragma: no cover - defensive, logged for observability
+        logger.exception("Database connection failed", exc_info=exc)
+        raise HTTPException(status_code=HTTPStatus.SERVICE_UNAVAILABLE) from exc
 
 
 @ROUTER.get("/experiments", tags=["internal"])

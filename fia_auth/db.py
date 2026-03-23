@@ -3,7 +3,7 @@
 import logging
 import os
 
-from sqlalchemy import Integer, NullPool, create_engine, select
+from sqlalchemy import Integer, NullPool, create_engine, select, text
 from sqlalchemy.exc import MultipleResultsFound, NoResultFound
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 
@@ -56,3 +56,10 @@ def is_staff_user(user_number: int) -> bool:
             f"integrity of the table"
         )
         return False
+
+
+
+def ensure_db_connection() -> None:
+    """Ensure the application can talk to the database."""
+    with ENGINE.connect() as connection:
+        connection.execute(text("SELECT 1"))
