@@ -58,7 +58,6 @@ def is_staff_user(user_number: int) -> bool:
         return False
 
 
-
 def ensure_db_connection() -> None:
     """Ensure the application can talk to the database."""
     with ENGINE.connect() as connection:
