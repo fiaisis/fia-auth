@@ -35,6 +35,11 @@ test = [
 
 
 
+all = [
+    "fia-auth[formatting]",
+    "fia-auth[test]",
+]
+
 [tool.setuptools]
 packages = ["fia_auth"]
 
