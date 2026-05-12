@@ -15,7 +15,7 @@ from fia_auth.auth import authenticate
 from fia_auth.db import ensure_db_connection
 from fia_auth.exceptions import UOWSError
 from fia_auth.experiments import get_experiments_for_user_number
-from fia_auth.model import MaintenanceState, UserCredentials  # noqa: TC001   # Required for fastapi
+from fia_auth.model import MaintenanceState, UserCredentials  # Required for fastapi
 from fia_auth.tokens import generate_access_token, generate_refresh_token, load_access_token, load_refresh_token
 
 ROUTER = APIRouter()

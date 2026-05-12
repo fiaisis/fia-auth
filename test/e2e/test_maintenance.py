@@ -8,6 +8,7 @@ from fia_auth.fia_auth import app
 
 client = TestClient(app)
 
+
 def test_maintenance_state():
     response = client.get("/maintenance")
     assert response.status_code == HTTPStatus.OK
