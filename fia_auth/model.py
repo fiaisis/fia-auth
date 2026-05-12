@@ -42,3 +42,11 @@ class User:
         if is_staff_user(self.user_number) or is_instrument_scientist(self.user_number):
             return Role.STAFF
         return Role.USER
+
+
+class MaintenanceState(BaseModel):
+
+    """Model for maintenance response."""
+
+    show: bool
+    message: str
