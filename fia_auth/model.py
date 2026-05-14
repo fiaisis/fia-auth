@@ -50,3 +50,11 @@ class MaintenanceState(BaseModel):
 
     show: bool
     message: str
+
+
+class ScheduledMaintenanceState(BaseModel):
+
+    """Model for scheduled maintenance response."""
+
+    show: bool
+    message: str

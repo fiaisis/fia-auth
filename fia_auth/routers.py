@@ -15,7 +15,7 @@ from fia_auth.auth import authenticate
 from fia_auth.db import ensure_db_connection
 from fia_auth.exceptions import UOWSError
 from fia_auth.experiments import get_experiments_for_user_number
-from fia_auth.model import MaintenanceState, UserCredentials  # Required for fastapi
+from fia_auth.model import MaintenanceState, ScheduledMaintenanceState, UserCredentials  # Required for fastapi
 from fia_auth.tokens import generate_access_token, generate_refresh_token, load_access_token, load_refresh_token
 
 ROUTER = APIRouter()
@@ -56,6 +56,25 @@ def get_maintenance_state() -> MaintenanceState:
     """
     logger.info("Getting maintenance state")
     return MaintenanceState(show=False, message="Maintenance mode is not supported by this API.")
+
+
+
+@ROUTER.get(
+    path="/scheduled_maintenance",
+    summary="Get the scheduled maintenance state",
+    response_description="Returns the scheduled maintenance state",
+)
+def get_scheduled_maintenance_state() -> MaintenanceState:
+    """
+    Get the scheduled maintenance state of the API.
+
+    This API does not run a maintenance mode, but the frontend library requires this endpoint.
+    It always returns False.
+    """
+    logger.info("Getting scheduled maintenance state")
+    return ScheduledMaintenanceState(
+        show=False, message="Scheduled maintenance mode is not supported by this API."
+    )
 
 
 @ROUTER.get("/experiments", tags=["internal"])
