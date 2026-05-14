@@ -58,7 +58,6 @@ def get_maintenance_state() -> MaintenanceState:
     return MaintenanceState(show=False, message="Maintenance mode is not supported by this API.")
 
 
-
 @ROUTER.get(
     path="/scheduled_maintenance",
     summary="Get the scheduled maintenance state",
@@ -72,9 +71,7 @@ def get_scheduled_maintenance_state() -> MaintenanceState:
     It always returns False.
     """
     logger.info("Getting scheduled maintenance state")
-    return ScheduledMaintenanceState(
-        show=False, message="Scheduled maintenance mode is not supported by this API."
-    )
+    return ScheduledMaintenanceState(show=False, message="Scheduled maintenance mode is not supported by this API.")
 
 
 @ROUTER.get("/experiments", tags=["internal"])
