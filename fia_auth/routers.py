@@ -63,7 +63,7 @@ def get_maintenance_state() -> MaintenanceState:
     summary="Get the scheduled maintenance state",
     response_description="Returns the scheduled maintenance state",
 )
-def get_scheduled_maintenance_state() -> MaintenanceState:
+def get_scheduled_maintenance_state() -> ScheduledMaintenanceState:
     """
     Get the scheduled maintenance state of the API.
 
