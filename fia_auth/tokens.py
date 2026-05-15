@@ -23,7 +23,9 @@ logger = logging.getLogger(__name__)
 
 
 class Token(ABC):
+
     """Abstract token class defines verify method"""
+
     jwt: str
 
     def verify(self) -> None:
@@ -60,7 +62,9 @@ class Token(ABC):
 
 
 class AccessToken(Token):
+
     """Access Token is a short-lived (5 minute) token that stores user information"""
+
     def __init__(self, jwt_token: str | None = None, payload: dict[str, Any] | None = None) -> None:
         """
         Create AccessToken, requires jwt_token XOR a payload
@@ -96,7 +100,9 @@ class AccessToken(Token):
 
 
 class RefreshToken(Token):
+
     """Refresh token is a long-lived (12 hour) token that is required to refresh an access token"""
+
     def __init__(self, jwt_token: str | None = None) -> None:
         """
         Create the RefreshToken

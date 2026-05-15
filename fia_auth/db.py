@@ -18,7 +18,9 @@ class Base(DeclarativeBase):
 
 
 class Staff(Base):
+
     """Staff user"""
+
     __tablename__ = "staff"
     user_number: Mapped[int] = mapped_column(Integer())
 
