@@ -15,7 +15,7 @@ from fia_auth.auth import authenticate
 from fia_auth.db import ensure_db_connection
 from fia_auth.exceptions import UOWSError
 from fia_auth.experiments import get_experiments_for_user_number
-from fia_auth.model import UserCredentials  # noqa: TC001   # Required for fastapi
+from fia_auth.model import MaintenanceState, ScheduledMaintenanceState, UserCredentials  # Required for fastapi
 from fia_auth.tokens import generate_access_token, generate_refresh_token, load_access_token, load_refresh_token
 
 ROUTER = APIRouter()
@@ -42,6 +42,36 @@ async def ready() -> Literal["ok"]:
     except Exception as exc:  # pragma: no cover - defensive, logged for observability
         logger.exception("Database connection failed", exc_info=exc)
         raise HTTPException(status_code=HTTPStatus.SERVICE_UNAVAILABLE) from exc
+
+
+@ROUTER.get(
+    path="/maintenance", summary="Get the maintenance state", response_description="Returns the maintenance state"
+)
+def get_maintenance_state() -> MaintenanceState:
+    """
+    Get the maintenance state of the API.
+
+    This API does not run a maintenance mode, but the frontend library requires this endpoint.
+    It always returns False.
+    """
+    logger.info("Getting maintenance state")
+    return MaintenanceState(show=False, message="Maintenance mode is not supported by this API.")
+
+
+@ROUTER.get(
+    path="/scheduled_maintenance",
+    summary="Get the scheduled maintenance state",
+    response_description="Returns the scheduled maintenance state",
+)
+def get_scheduled_maintenance_state() -> ScheduledMaintenanceState:
+    """
+    Get the scheduled maintenance state of the API.
+
+    This API does not run a maintenance mode, but the frontend library requires this endpoint.
+    It always returns False.
+    """
+    logger.info("Getting scheduled maintenance state")
+    return ScheduledMaintenanceState(show=False, message="Scheduled maintenance mode is not supported by this API.")
 
 
 @ROUTER.get("/experiments", tags=["internal"])
