@@ -10,26 +10,20 @@ from fia_auth.roles import is_instrument_scientist
 
 
 class UserCredentials(BaseModel):
-
     """Pydantic model for user credentials. Allows FastAPI to validate the object recieved in the login endpoint"""
-
     username: str
     password: str
 
 
 class Role(enum.Enum):
-
     """Role Enum to differentiate between user and staff. It is assumed staff will see all data"""
-
     STAFF = "staff"
     USER = "user"
 
 
 @dataclass
 class User:
-
     """Internal User Model for packing JWTs"""
-
     user_number: int
     username: str
 
@@ -45,16 +39,12 @@ class User:
 
 
 class MaintenanceState(BaseModel):
-
     """Model for maintenance response."""
-
     show: bool
     message: str
 
 
 class ScheduledMaintenanceState(BaseModel):
-
     """Model for scheduled maintenance response."""
-
     show: bool
     message: str
