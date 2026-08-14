@@ -7,11 +7,11 @@ requires-python = ">= 3.11"
 dependencies = [
     "cryptography==50.0.0",
     "gql[all]==4.0.0",
-    "fastapi[all]==0.140.0",
+    "fastapi[all]==0.141.1",
     "psycopg2==2.9.12",
     "PyJWT==2.13.0",
     "SQLAlchemy==2.0.51",
-    "uvicorn==0.51.0",
+    "uvicorn==0.52.1",
     "requests==2.34.2"
 ]
 
@@ -20,7 +20,7 @@ dependencies = [
 
 [project.optional-dependencies]
 formatting = [
-    "ruff==0.16.0",
+    "ruff==0.16.2",
     "mypy==2.3.0",
     "types-requests==2.33.0.20260712",
     "fia-auth[test]",
