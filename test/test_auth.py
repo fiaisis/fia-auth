@@ -31,13 +31,13 @@ def test_authenticate_success(mock_post, mock_get):
     assert user.username == "Mr Cool"
 
     mock_post.assert_called_once_with(
-        "https://devapi.facilities.rl.ac.uk/users-service/v1/sessions",
+        "https://devapi.facilities.rl.ac.uk/users-service/v2/sessions",
         json={"username": "valid_user", "password": "valid_password"},
         headers={"Content-Type": "application/json"},
         timeout=30,
     )
     mock_get.assert_called_once_with(
-        "https://devapi.facilities.rl.ac.uk/users-service/v1/basic-person-details?userNumbers=12345",
+        "https://devapi.facilities.rl.ac.uk/users-service/v2/basic-person-details?userNumbers=12345",
         headers={"Authorization": f"Api-key {uows_api_key}", "Content-Type": "application/json"},
         timeout=30,
     )
