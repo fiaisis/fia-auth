@@ -22,7 +22,7 @@ def authenticate(credentials: UserCredentials) -> User:
     data = {"username": credentials.username, "password": credentials.password}
     logger.info(f"Authentication user: {credentials.username[0:3]}*****")  # Partial reveal to help logging
     response = requests.post(
-        f"{UOWS_URL}/v1/sessions",
+        f"{UOWS_URL}/v2/sessions",
         json=data,
         headers={"Content-Type": "application/json"},
         timeout=30,
@@ -32,7 +32,7 @@ def authenticate(credentials: UserCredentials) -> User:
         user_id = response.json()["userId"]
         uows_api_key = os.environ.get("UOWS_API_KEY", "")
         details_response = requests.get(
-            f"{UOWS_URL}/v1/basic-person-details?userNumbers={user_id}",
+            f"{UOWS_URL}/v2/basic-person-details?userNumbers={user_id}",
             headers={"Authorization": f"Api-key {uows_api_key}", "Content-Type": "application/json"},
             timeout=30,
         )
