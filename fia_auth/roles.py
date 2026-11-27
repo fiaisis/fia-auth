@@ -18,7 +18,7 @@ def is_instrument_scientist(user_number: int) -> bool:
     uows_url = os.environ.get("UOWS_URL", "https://devapi.facilities.rl.ac.uk/users-service")
     uows_api_key = os.environ.get("UOWS_API_KEY", "")
     response = requests.get(
-        url=f"{uows_url}/v1/role/{user_number}",
+        url=f"{uows_url}/v2/role/{user_number}",
         headers={"Authorization": f"Api-key {uows_api_key}", "accept": "application/json"},
         timeout=5,
     )
