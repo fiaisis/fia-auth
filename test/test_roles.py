@@ -20,7 +20,7 @@ def test_is_instrument_scientist_true(requests):
     result = is_instrument_scientist(user_number)
 
     requests.get.assert_called_once_with(
-        url=f"{uows_url}/v1/role/{user_number}",
+        url=f"{uows_url}/v2/role/{user_number}",
         headers={"Authorization": f"Api-key {uows_api_key}", "accept": "application/json"},
         timeout=5,
     )
